@@ -7,7 +7,7 @@ import './app.less'
 
 const App: React.FC = ({ children }) => {
   useEffect(() => {
-    console.log('app mounted !!!')
+    console.log('app mounted !')
   }, [])
   useDidShow(() => console.log('app show'))
   useDidHide(() => console.log('app hide'))
