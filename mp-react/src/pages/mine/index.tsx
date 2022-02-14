@@ -41,12 +41,12 @@ const Mine: React.FC = () => {
   return (
     <>
       <section className='relative p-4 pt-0 overflow-hidden'>
-        <div className='rounded-bg'></div>
+        <div className='rounded-bg bg-red-400'></div>
         <div className='relative z-2 p-4 rounded-lg bg-gray-50 shadow-lg'>
           <section className='flex items-center'>
             <img src={avatarUrl} alt='' className='mr-2 w-15 h-15 rounded-full bg-gray-500 border-none' />
             <div>
-              <h2 className='mb-1 text-gray-800'>Nick Name Name</h2>
+              <h2 className='mb-1 text-gray-800'>Nick Name</h2>
               <p>
                 <span className='inline-block text-xs text-gray-400'>LV 1</span>
                 <span className='inline-block ml-2 px-1 text-xs text-gray-50 rounded-tl-lg rounded-r-lg bg-red-400'>
@@ -91,33 +91,5 @@ const Mine: React.FC = () => {
     </>
   )
 }
-
-// const A = () => {
-//   const groups = []
-//   return (
-//     <section className='flex m-2'>
-//       {groups.map(group => (
-//         <div key={group.key} style={{ width: '50%' }}>
-//           {group.list.map(v => (
-//             <article key={v._id}>
-//               <section className='shadow-md rounded-lg overflow-hidden mx-2 mb-4'>
-//                 <div className='bg-center bg-cover' style={{ backgroundImage: `url("${v.cover}")` }}></div>
-//                 <section className='m-2'>
-//                   {v.content?.split('\n').map(str => (
-//                     <p key={str} className='mb-1 last:mb-0 text-xs text-gray-600'>
-//                       {str}
-//                     </p>
-//                   ))}
-//                 </section>
-
-//                 <p className='pb-2 text-xs text-gray-400'>{v.resource}</p>
-//               </section>
-//             </article>
-//           ))}
-//         </div>
-//       ))}
-//     </section>
-//   )
-// }
 
 export default Mine

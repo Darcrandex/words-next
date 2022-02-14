@@ -3,7 +3,7 @@ export default defineAppConfig({
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
+    navigationBarTitleText: 'Words',
     navigationBarTextStyle: 'black'
   },
 
@@ -11,11 +11,15 @@ export default defineAppConfig({
     list: [
       {
         pagePath: 'pages/home/index',
-        text: 'Home'
+        text: '',
+        iconPath: 'assets/icons/tab-home.png',
+        selectedIconPath: 'assets/icons/tab-home-active.png'
       },
       {
         pagePath: 'pages/mine/index',
-        text: 'Mine'
+        text: '',
+        iconPath: 'assets/icons/tab-mine.png',
+        selectedIconPath: 'assets/icons/tab-mine-active.png'
       }
     ]
   }
