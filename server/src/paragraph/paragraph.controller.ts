@@ -40,15 +40,27 @@ export class ParagraphController {
   }
 
   @Get('/list')
-  async findAll(@Query() query: { page?: string; pageSize?: string }) {
+  async findAll(
+    @Query()
+    query: Paragraph & { page?: string; pageSize?: string; keywords?: string },
+  ) {
     const pageSize = parseInt(query?.pageSize) || 10
     const pageNumber = parseInt(query.page) || 1
     const list = await this.paragraphModel
-      .find()
-      .skip((pageNumber - 1) * pageSize)
-      .limit(pageSize)
+      .find(
+        Object.assign(
+          {},
+          query.resource && { resource: query.resource },
+          query.tags && { tags: query.tags },
+          query.keywords && {
+            content: { $regex: query.keywords, $options: 'i' },
+          },
+        ),
+      )
       .populate('resource')
       .populate('tags')
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize)
       .exec()
     const total = await this.paragraphModel.count()
     return { list, total }
