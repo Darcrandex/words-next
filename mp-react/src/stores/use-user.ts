@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import { useMemo } from 'react'
 import { atom, useRecoilState } from 'recoil'
 import { apiUserLogin, apiUserSignUp, UserModel } from '@/apis/user'
 
@@ -18,6 +19,7 @@ const stateAtom = atom<UserModel>({
 
 export function useUser() {
   const [info, setInfo] = useRecoilState(stateAtom)
+  const hadLogined = useMemo(() => info.openid && info.nickName, [info.openid, info.nickName])
 
   // 进入 app 自动登录
   const loginOnLaunch = async () => {
@@ -36,7 +38,7 @@ export function useUser() {
   }
 
   const signUp = async () => {
-    if (info.nickName) return
+    if (hadLogined) return
     const res = await Taro.getUserProfile({ desc: '登录' })
 
     // 注册时，合并保存的 openid，保存到后台
@@ -45,5 +47,5 @@ export function useUser() {
     setInfo(userInfo)
   }
 
-  return { info, loginOnLaunch, signUp }
+  return { info, hadLogined, loginOnLaunch, signUp }
 }

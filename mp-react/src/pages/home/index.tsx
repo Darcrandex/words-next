@@ -11,6 +11,7 @@ import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { mergeClassNames } from '@/utils'
 
 import { useUser } from '@/stores/use-user'
+import AuthWrapper from '@/containers/AuthWrapper'
 
 const banners = [
   'http://p1.music.126.net/QC3g4qlVuKXg9PRl0hYwjQ==/109951167032529896.jpg?imageView&quality=89',
@@ -117,18 +118,18 @@ const Home: React.FC = () => {
           <section className='mx-4 text-xs text-gray-400'>#&nbsp;{v.resource}</section>
 
           <section className='grid grid-cols-3'>
-            <div className='flex items-center p-4'>
+            <AuthWrapper className='flex items-center p-4'>
               <i className='iconfont icon-collection text-lg text-center text-gray-400'></i>
               <span className='ml-1 text-xs text-gray-400'>0</span>
-            </div>
-            <div className='flex items-center justify-center p-4'>
+            </AuthWrapper>
+            <AuthWrapper className='flex items-center justify-center p-4'>
               <i className='iconfont icon-sound-filling-fill text-lg text-center text-gray-400'></i>
               <span className='ml-1 text-xs text-gray-400'>45</span>
-            </div>
-            <div className='flex items-center justify-end p-4'>
+            </AuthWrapper>
+            <AuthWrapper className='flex items-center justify-end p-4'>
               <i className='iconfont icon-quick text-lg text-center text-gray-400'></i>
               <span className='ml-1 text-xs text-gray-400'>10K+</span>
-            </div>
+            </AuthWrapper>
           </section>
         </article>
       ))}

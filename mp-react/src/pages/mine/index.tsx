@@ -11,7 +11,7 @@ import { useUser } from '@/stores/use-user'
 import './styles.less'
 
 const Mine: React.FC = () => {
-  const { info, signUp } = useUser()
+  const { info, hadLogined, signUp } = useUser()
 
   const [list, setList] = useState<(Paragraph & { height: number })[]>([])
   useEffect(() => {
@@ -40,8 +40,6 @@ const Mine: React.FC = () => {
     ]
   }, [list])
 
-  const isLogin = !!info.nickName
-
   return (
     <>
       <section className='relative p-4 pt-0 overflow-hidden'>
@@ -52,9 +50,9 @@ const Mine: React.FC = () => {
               className='mr-2 w-15 h-15 rounded-full shadow-md bg-gray-300 bg-center bg-cover'
               style={{ backgroundImage: `url("${info.avatarUrl}")` }}
             ></div>
-            <div className={mergeClassNames(isLogin ? 'hidden' : 'text-gray-800')}>点击登录</div>
+            <div className={mergeClassNames(hadLogined ? 'hidden' : 'text-gray-800')}>点击登录</div>
 
-            <div className={mergeClassNames(!isLogin && 'hidden')}>
+            <div className={mergeClassNames(!hadLogined && 'hidden')}>
               <h2 className='mb-1 text-gray-800'>{info.nickName}</h2>
               <p>
                 <span className='inline-block text-xs text-gray-400'>LV 1</span>
