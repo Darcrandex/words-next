@@ -10,6 +10,8 @@ import { Swiper, SwiperItem } from '@tarojs/components'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { mergeClassNames } from '@/utils'
 
+import { useUser } from '@/stores/use-user'
+
 const banners = [
   'http://p1.music.126.net/QC3g4qlVuKXg9PRl0hYwjQ==/109951167032529896.jpg?imageView&quality=89',
   'http://p1.music.126.net/m7ByCqWv8_Yj7Rg7GUJ9kg==/109951167033046111.jpg?imageView&quality=89',
@@ -33,6 +35,12 @@ const categories = [
 ]
 
 const Home: React.FC = () => {
+  const { loginOnLaunch } = useUser()
+  useEffect(() => {
+    loginOnLaunch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const [list, setList] = useState<Paragraph[]>([])
   useEffect(() => {
     apiGetParagraphs().then(res => setList(res))

@@ -8,6 +8,8 @@ import { Resource } from './models/resource.model'
 import { TagGroup } from './models/tag-group.model'
 import { Tag } from './models/tag.model'
 
+import { User } from './models/user.model'
+
 const models = TypegooseModule.forFeature([
   Author,
   Resource,
@@ -17,6 +19,8 @@ const models = TypegooseModule.forFeature([
   Category,
   TagGroup,
   Tag,
+
+  User,
 ])
 
 @Global()

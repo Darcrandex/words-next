@@ -5,13 +5,13 @@ import { DbModule } from '@app/db'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ParagraphModule } from './paragraph/paragraph.module'
-import { UsersModule } from './users/users.module'
 import { AuthorModule } from './author/author.module'
 import { TagGroupModule } from './tag-group/tag-group.module'
 import { TagModule } from './tag/tag.module'
 import { CategoryModule } from './category/category.module'
 import { ResourceModule } from './resource/resource.module'
 import { FileModule } from './file/file.module'
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
@@ -27,13 +27,13 @@ import { FileModule } from './file/file.module'
 
     DbModule,
     ParagraphModule,
-    UsersModule,
     AuthorModule,
     TagGroupModule,
     TagModule,
     CategoryModule,
     ResourceModule,
     FileModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
