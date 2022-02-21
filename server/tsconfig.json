@@ -29,6 +29,12 @@
       ],
       "@app/http/*": [
         "libs/http/src/*"
+      ],
+      "@app/rsa": [
+        "libs/rsa/src"
+      ],
+      "@app/rsa/*": [
+        "libs/rsa/src/*"
       ]
     }
   }

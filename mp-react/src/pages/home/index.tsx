@@ -4,35 +4,21 @@
  * @author darcrand
  */
 
-import React, { useState, useEffect } from 'react'
-import { usePageScroll } from '@tarojs/taro'
+import React, { useState, useEffect, useCallback } from 'react'
+import { usePageScroll, usePullDownRefresh, stopPullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { Swiper, SwiperItem } from '@tarojs/components'
+
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { mergeClassNames } from '@/utils'
 
 import { useUser } from '@/stores/use-user'
 import AuthWrapper from '@/containers/AuthWrapper'
+import { apiGetCategories, Catogory } from '@/apis/category'
 
 const banners = [
   'http://p1.music.126.net/QC3g4qlVuKXg9PRl0hYwjQ==/109951167032529896.jpg?imageView&quality=89',
   'http://p1.music.126.net/m7ByCqWv8_Yj7Rg7GUJ9kg==/109951167033046111.jpg?imageView&quality=89',
   'http://p1.music.126.net/X4NUuAyrmWWfGetv8OOm6A==/109951167033058315.jpg?imageView&quality=89'
-]
-
-const categories = [
-  {
-    name: '经典语录',
-    imageUrl: 'http://p1.music.126.net/mX1eJwQQEcrDXXF_QfT33g==/109951166978962006.jpg?param=140y140'
-  },
-  {
-    name: '电影台词',
-    imageUrl: 'http://p1.music.126.net/Xg8fUlKLroGl64GGlceqqA==/109951165333414874.jpg?param=140y140'
-  },
-  {
-    name: '歌曲歌词',
-    imageUrl: 'http://p1.music.126.net/_jydoYV-61bJGKEVzTFYuw==/109951165333327084.jpg?param=140y140'
-  },
-  { name: '名著词句', imageUrl: 'http://p1.music.126.net/P2LvI9mnY9f7dQuNW7a0zg==/109951166960934198.jpg' }
 ]
 
 const Home: React.FC = () => {
@@ -42,9 +28,21 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const [query, setQuery] = useState({ page: 1, timestamp: Date.now() })
   const [list, setList] = useState<Paragraph[]>([])
+  const [total, setTotal] = useState(0)
+
   useEffect(() => {
-    apiGetParagraphs().then(res => setList(res))
+    apiGetParagraphs({ page: query.page }).then(res => {
+      setList(res.list)
+      setTotal(res.total)
+    })
+  }, [query])
+
+  // 分类
+  const [categories, setCategories] = useState<Catogory[]>([])
+  useEffect(() => {
+    apiGetCategories().then(res => setCategories(res.list))
   }, [])
 
   // 头部搜索框
@@ -56,6 +54,20 @@ const Home: React.FC = () => {
       setVisible(scrollTop < 300 || prev > scrollTop)
       return scrollTop
     })
+  })
+
+  // 下拉刷新
+  usePullDownRefresh(() => {
+    console.log('xxxxxxx')
+    stopPullDownRefresh()
+    setQuery({ page: 1, timestamp: Date.now() })
+  })
+
+  useReachBottom(() => {
+    console.log('more')
+    if (list.length < total) {
+      setQuery(prev => ({ page: prev.page + 1, timestamp: Date.now() }))
+    }
   })
 
   return (
@@ -85,12 +97,12 @@ const Home: React.FC = () => {
       </Swiper>
 
       <section className='grid grid-cols-4 m-4 mb-6'>
-        {categories.map(v => (
+        {categories.slice(0, 4).map(v => (
           <div key={v.name}>
             <div className='mx-4'>
               <div
-                className='rounded-full bg-blue-100 bg-cover bg-center shadow-md'
-                style={{ paddingTop: '100%', backgroundImage: `url("${v.imageUrl}")` }}
+                className='rounded-full bg-blue-50 bg-cover bg-center shadow-md'
+                style={{ paddingTop: '100%', backgroundImage: `url("${v.cover}")` }}
               ></div>
             </div>
             <p className='mt-2 text-xs text-gray-500 text-center'>{v.name}</p>
@@ -105,7 +117,10 @@ const Home: React.FC = () => {
 
       {list.map(v => (
         <article key={v._id} className='m-4 mb-8 rounded-lg overflow-hidden shadow-lg'>
-          <section className='h-40 bg-center bg-cover' style={{ backgroundImage: `url("${v.cover}")` }}></section>
+          <section
+            className='h-40 bg-center bg-cover bg-gray-100'
+            style={{ backgroundImage: `url("${v.cover}")` }}
+          ></section>
 
           <section className='m-4'>
             {v.content?.split('\n').map(str => (
@@ -115,7 +130,11 @@ const Home: React.FC = () => {
             ))}
           </section>
 
-          <section className='mx-4 text-xs text-gray-400'>#&nbsp;{v.resource}</section>
+          <section className='mx-4 text-xs text-gray-400'>
+            <span className='inline'>#&nbsp;</span>
+            {!!v.resource?.author?.name && <span className='inline'>{v.resource?.author?.name}</span>}
+            {!!v.resource?.name && <span className='inline ml-1'>《{v.resource?.name}》</span>}
+          </section>
 
           <section className='grid grid-cols-3'>
             <AuthWrapper className='flex items-center p-4'>

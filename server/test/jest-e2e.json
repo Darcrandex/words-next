@@ -14,6 +14,8 @@
     "@app/db/(.*)": "<rootDir>/../libs/db/src/$1",
     "@app/db": "<rootDir>/../libs/db/src",
     "@app/http/(.*)": "<rootDir>/../libs/http/src/$1",
-    "@app/http": "<rootDir>/../libs/http/src"
+    "@app/http": "<rootDir>/../libs/http/src",
+    "@app/rsa/(.*)": "<rootDir>/../libs/rsa/src/$1",
+    "@app/rsa": "<rootDir>/../libs/rsa/src"
   }
 }

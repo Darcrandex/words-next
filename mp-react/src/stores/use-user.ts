@@ -31,6 +31,11 @@ export function useUser() {
     // 如果有用户直接设置
     if (res.user) {
       setInfo(res.user)
+
+      // 缓存token
+      if (res.token) {
+        Taro.setStorage({ key: 'token', data: res.token })
+      }
     } else if (res.openid) {
       // 没有则保存 openid，为后续注册准备
       setInfo(prev => Object.assign(prev, { openid: res.openid }))
@@ -43,8 +48,9 @@ export function useUser() {
 
     // 注册时，合并保存的 openid，保存到后台
     const userInfo = Object.assign({}, res.userInfo, { openid: info.openid })
-    await apiUserSignUp(userInfo)
-    setInfo(userInfo)
+    const userRes = await apiUserSignUp(userInfo)
+
+    setInfo(userRes.user)
   }
 
   return { info, hadLogined, loginOnLaunch, signUp }

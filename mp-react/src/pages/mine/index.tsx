@@ -15,7 +15,7 @@ const Mine: React.FC = () => {
 
   const [list, setList] = useState<(Paragraph & { height: number })[]>([])
   useEffect(() => {
-    apiGetParagraphs().then(res => setList(res.map(v => ({ ...v, height: ~~(Math.random() * 150) + 100 }))))
+    apiGetParagraphs().then(res => setList(res.list.map(v => ({ ...v, height: ~~(Math.random() * 150) + 100 }))))
   }, [])
   const groups = useMemo(() => {
     const leftList: (Paragraph & { height: number })[] = []

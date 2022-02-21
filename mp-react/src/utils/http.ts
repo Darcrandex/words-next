@@ -18,21 +18,21 @@ async function requestAsync<R>(options: {
   data?: Record<string, unknown>
   params?: Record<string, unknown>
 }) {
-  const token = getToken()
+  const token = await Taro.getStorage({ key: 'token' })
 
   const requestOptions: Taro.request.Option = {
     url: queryString.stringifyUrl({
       url: process.env.BASE_URL + options.url,
-      query: options.params as queryString.StringifiableRecord,
+      query: options.params as queryString.StringifiableRecord
     }),
     method: options.method,
-    header: Object.assign({ Authorization: token }, options.header),
-    data: options.data,
+    header: Object.assign({ Authorization: `Bearer ${token}` }, options.header),
+    data: options.data
   }
 
   try {
     // res 是请求的整体返回数据，其中的 data 才是接口返回的逻辑数据
-    const res = (await Taro.request(requestOptions)) as unknown as TaroResponse<R>
+    const res = ((await Taro.request(requestOptions)) as unknown) as TaroResponse<R>
     return res.data
   } catch (error) {
     console.error('請求失敗', error)
@@ -50,5 +50,5 @@ export const http = {
     data?: Record<string, unknown>,
     params?: Record<string, unknown>,
     config?: Record<string, unknown>
-  ) => requestAsync<R>({ url, method: 'POST', data, params, ...config }),
+  ) => requestAsync<R>({ url, method: 'POST', data, params, ...config })
 }

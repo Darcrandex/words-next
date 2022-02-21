@@ -57,7 +57,10 @@ export class ParagraphController {
           },
         ),
       )
-      .populate('resource')
+      .populate({
+        path: 'resource',
+        populate: [{ path: 'author' }, { path: 'category' }],
+      })
       .populate('tags')
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)

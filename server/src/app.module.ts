@@ -12,6 +12,8 @@ import { CategoryModule } from './category/category.module'
 import { ResourceModule } from './resource/resource.module'
 import { FileModule } from './file/file.module'
 import { UserModule } from './user/user.module'
+import { AuthModule } from './auth/auth.module'
+import { RsaModule } from '@app/rsa'
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { UserModule } from './user/user.module'
     }),
 
     DbModule,
+    RsaModule,
+
     ParagraphModule,
     AuthorModule,
     TagGroupModule,
@@ -34,6 +38,7 @@ import { UserModule } from './user/user.module'
     ResourceModule,
     FileModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
