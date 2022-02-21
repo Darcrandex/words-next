@@ -4,9 +4,10 @@
  * @author darcrand
  */
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePageScroll, usePullDownRefresh, stopPullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { Swiper, SwiperItem } from '@tarojs/components'
+import { useMount, useSetState } from 'ahooks'
 
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { mergeClassNames } from '@/utils'
@@ -22,22 +23,42 @@ const banners = [
 ]
 
 const Home: React.FC = () => {
+  // 登陆
   const { loginOnLaunch } = useUser()
-  useEffect(() => {
+  useMount(() => {
     loginOnLaunch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
-  const [query, setQuery] = useState({ page: 1, timestamp: Date.now() })
-  const [list, setList] = useState<Paragraph[]>([])
-  const [total, setTotal] = useState(0)
+  // 主列表
+  const [paragraphState, setParagraph] = useSetState<{ query: { page: number }; list: Paragraph[]; total: number }>({
+    query: { page: 1 },
+    list: [],
+    total: 0
+  })
 
-  useEffect(() => {
-    apiGetParagraphs({ page: query.page }).then(res => {
-      setList(res.list)
-      setTotal(res.total)
+  useMount(() => {
+    apiGetParagraphs().then(res => setParagraph(res))
+  })
+
+  usePullDownRefresh(() => {
+    setParagraph({ query: { page: 1 } })
+    apiGetParagraphs().then(res => {
+      setParagraph(res)
+      stopPullDownRefresh()
     })
-  }, [query])
+  })
+
+  useReachBottom(() => {
+    if (paragraphState.list.length < paragraphState.total) {
+      apiGetParagraphs({ page: paragraphState.query.page + 1 }).then(res => {
+        setParagraph(prev => ({
+          query: { page: prev.query.page + 1 },
+          list: prev.list.concat(res.list),
+          total: res.total
+        }))
+      })
+    }
+  })
 
   // 分类
   const [categories, setCategories] = useState<Catogory[]>([])
@@ -54,20 +75,6 @@ const Home: React.FC = () => {
       setVisible(scrollTop < 300 || prev > scrollTop)
       return scrollTop
     })
-  })
-
-  // 下拉刷新
-  usePullDownRefresh(() => {
-    console.log('xxxxxxx')
-    stopPullDownRefresh()
-    setQuery({ page: 1, timestamp: Date.now() })
-  })
-
-  useReachBottom(() => {
-    console.log('more')
-    if (list.length < total) {
-      setQuery(prev => ({ page: prev.page + 1, timestamp: Date.now() }))
-    }
   })
 
   return (
@@ -115,7 +122,7 @@ const Home: React.FC = () => {
         <span className='text-gray-800'>热门推荐</span>
       </h3>
 
-      {list.map(v => (
+      {paragraphState.list.map(v => (
         <article key={v._id} className='m-4 mb-8 rounded-lg overflow-hidden shadow-lg'>
           <section
             className='h-40 bg-center bg-cover bg-gray-100'
