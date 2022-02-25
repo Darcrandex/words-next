@@ -52,6 +52,6 @@ export class TagController {
   @Get('/detail/:id')
   async findById(@Param('id') id: string) {
     const record = await this.tagModel.findById(id)
-    return { record }
+    return record
   }
 }

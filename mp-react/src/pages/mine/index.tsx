@@ -6,6 +6,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
+import SectionTitle from '@/components/SectionTitle'
 import { mergeClassNames } from '@/utils'
 import { useUser } from '@/stores/use-user'
 import './styles.less'
@@ -65,19 +66,16 @@ const Mine: React.FC = () => {
         </div>
       </section>
 
-      <h3 className='flex items-center m-4'>
-        <i className='w-1 h-4 bg-red-400 mr-1 rounded-tr rounded-bl'></i>
-        <span className='text-gray-800'>我的收藏</span>
-      </h3>
+      <SectionTitle>我的收藏</SectionTitle>
 
       <section className='flex m-2'>
         {groups.map(group => (
           <div key={group.key} style={{ width: '50%' }}>
             {group.list.map(v => (
               <article key={v._id}>
-                <section className='shadow-md rounded-lg overflow-hidden mx-2 mb-4'>
+                <section className='rounded-lg overflow-hidden mx-2 mb-4 shadow-md'>
                   <div
-                    className='bg-center bg-cover'
+                    className='bg-center bg-cover bg-blue-50'
                     style={{ backgroundImage: `url("${v.cover}")`, height: `${v.height}px` }}
                   ></div>
                   <section className='m-2'>
@@ -88,7 +86,14 @@ const Mine: React.FC = () => {
                     ))}
                   </section>
 
-                  <p className='pb-2 text-xs text-gray-400'>{v.resource}</p>
+                  <p className='pb-2 px-2'>
+                    {!!v.resource?.author?.name && (
+                      <span className='inline-block mr-1 text-xs text-gray-400'>{v.resource?.author?.name}</span>
+                    )}
+                    {!!v.resource?.name && (
+                      <span className='inline-block text-xs text-gray-400'>《{v.resource?.name}》</span>
+                    )}
+                  </p>
                 </section>
               </article>
             ))}

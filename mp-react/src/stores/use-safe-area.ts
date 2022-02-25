@@ -1,11 +1,27 @@
+import Taro from '@tarojs/taro'
+import { useMount } from 'ahooks'
 import { atom, useRecoilState } from 'recoil'
 
-const stateAtom = atom<TaroGeneral.SafeAreaResult>({
+const stateAtom = atom({
   key: 'safe-area',
-  default: { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 }
+  default: {
+    statusBarHeight: 0, // 状态栏的高度
+    menuBtnRect: { height: 0, top: 0, left: 0 } // 胶囊的位置信息
+  }
 })
 
 export function useSafeArea() {
   const [safeArea, updateSafeArea] = useRecoilState(stateAtom)
-  return { safeArea, updateSafeArea }
+
+  useMount(async () => {
+    const systomInfo = await Taro.getSystemInfo()
+    const rect = Taro.getMenuButtonBoundingClientRect()
+
+    updateSafeArea({
+      statusBarHeight: systomInfo.statusBarHeight,
+      menuBtnRect: { height: rect.height, top: rect.top, left: rect.left }
+    })
+  })
+
+  return { safeArea }
 }

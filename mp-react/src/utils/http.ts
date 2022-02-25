@@ -6,8 +6,12 @@ interface TaroResponse<T> {
   statusCode: number
 }
 
-function getToken() {
-  return 'a-token'
+async function getToken() {
+  try {
+    return await Taro.getStorage({ key: 'token' })
+  } catch (error) {
+    return
+  }
 }
 
 // 公共请求方式
@@ -18,7 +22,7 @@ async function requestAsync<R>(options: {
   data?: Record<string, unknown>
   params?: Record<string, unknown>
 }) {
-  const token = await Taro.getStorage({ key: 'token' })
+  const token = await getToken()
 
   const requestOptions: Taro.request.Option = {
     url: queryString.stringifyUrl({

@@ -4,15 +4,17 @@
  * @author darcrand
  */
 
-import React, { useState, useEffect } from 'react'
-import { usePageScroll, usePullDownRefresh, stopPullDownRefresh, useReachBottom } from '@tarojs/taro'
+import React, { useState, useEffect, useMemo } from 'react'
+import Taro, { usePageScroll, usePullDownRefresh, stopPullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { Swiper, SwiperItem } from '@tarojs/components'
 import { useMount, useSetState } from 'ahooks'
 
+import SectionTitle from '@/components/SectionTitle'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { mergeClassNames } from '@/utils'
 
 import { useUser } from '@/stores/use-user'
+import { useSafeArea } from '@/stores/use-safe-area'
 import AuthWrapper from '@/containers/AuthWrapper'
 import { apiGetCategories, Catogory } from '@/apis/category'
 
@@ -63,29 +65,34 @@ const Home: React.FC = () => {
   // 分类
   const [categories, setCategories] = useState<Catogory[]>([])
   useEffect(() => {
-    apiGetCategories().then(res => setCategories(res.list))
+    apiGetCategories().then(res => setCategories(res.list.slice(0, 4)))
   }, [])
 
   // 头部搜索框
-  const [visibleHeader, setVisible] = useState(true)
-  const [, setScrollTop] = useState(0)
-  usePageScroll(({ scrollTop }) => {
-    setScrollTop(prev => {
-      // 往上滑-隐藏，往下滑-显示
-      setVisible(scrollTop < 300 || prev > scrollTop)
-      return scrollTop
-    })
-  })
+  const { safeArea } = useSafeArea()
+  const [pageScrollTop, setScrollTop] = useState(0)
+  const headerTop = useMemo(() => {
+    return safeArea.menuBtnRect.top + safeArea.menuBtnRect.height ?? 44
+  }, [safeArea])
+  const isFixed = useMemo(() => pageScrollTop > headerTop, [headerTop, pageScrollTop])
+
+  usePageScroll(({ scrollTop }) => setScrollTop(scrollTop))
 
   return (
     <>
       <section
+        style={{ height: headerTop }}
         className={mergeClassNames(
-          'sticky top-0 left-0 z-10 bg-white px-4 pb-2 transition',
-          visibleHeader ? 'visible opacity-100' : 'invisible opacity-0'
+          'sticky top-0 left-0 z-10 flex items-end bg-white px-4 pb-2 transition',
+          isFixed ? 'shadow-lg' : 'shadow-none'
         )}
       >
-        <p className='bg-gray-100 px-4 py-2 rounded-full text-xs text-gray-400'>但愿人长久</p>
+        <p
+          style={{ width: safeArea.menuBtnRect.left - 30, height: safeArea.menuBtnRect.height }}
+          className='bg-gray-100 px-4 py-2 rounded-full text-xs text-gray-400 box-border'
+        >
+          但愿人长久
+        </p>
       </section>
 
       <Swiper autoplay indicatorColor='#aaa' indicatorActiveColor='#555' indicatorDots className='h-40'>
@@ -104,8 +111,8 @@ const Home: React.FC = () => {
       </Swiper>
 
       <section className='grid grid-cols-4 m-4 mb-6'>
-        {categories.slice(0, 4).map(v => (
-          <div key={v.name}>
+        {categories.map(v => (
+          <div key={v._id} onClick={() => Taro.navigateTo({ url: `/pages/paragraph-center/index?category=${v._id}` })}>
             <div className='mx-4'>
               <div
                 className='rounded-full bg-blue-50 bg-cover bg-center shadow-md'
@@ -117,15 +124,12 @@ const Home: React.FC = () => {
         ))}
       </section>
 
-      <h3 className='flex items-center m-4'>
-        <i className='w-1 h-4 bg-red-400 mr-1 rounded-tr rounded-bl'></i>
-        <span className='text-gray-800'>热门推荐</span>
-      </h3>
+      <SectionTitle>热门推荐</SectionTitle>
 
       {paragraphState.list.map(v => (
         <article key={v._id} className='m-4 mb-8 rounded-lg overflow-hidden shadow-lg'>
           <section
-            className='h-40 bg-center bg-cover bg-gray-100'
+            className='h-40 bg-center bg-cover bg-blue-50'
             style={{ backgroundImage: `url("${v.cover}")` }}
           ></section>
 
@@ -139,7 +143,7 @@ const Home: React.FC = () => {
 
           <section className='mx-4 text-xs text-gray-400'>
             <span className='inline'>#&nbsp;</span>
-            {!!v.resource?.author?.name && <span className='inline'>{v.resource?.author?.name}</span>}
+            <span className='inline'>{v.resource?.author?.name ?? '佚名'}</span>
             {!!v.resource?.name && <span className='inline ml-1'>《{v.resource?.name}》</span>}
           </section>
 

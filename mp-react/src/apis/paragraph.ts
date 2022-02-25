@@ -7,6 +7,15 @@ export interface Paragraph {
   resource: { name: string; author: { name: string }; category: { name: string } }
 }
 
-export async function apiGetParagraphs(params?: { page?: number; pageSize?: number }) {
+export type ListFetchQuery = {
+  page?: number
+  pageSize?: number
+  category?: string // 分类单选
+  tag?: string // 标签单选
+  resource?: string // 出处
+  keywords?: string
+}
+
+export async function apiGetParagraphs(params?: ListFetchQuery) {
   return await http.get<{ list: Paragraph[]; total: number }>('/paragraph/list', params)
 }

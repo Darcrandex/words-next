@@ -42,7 +42,13 @@ export class ParagraphController {
   @Get('/list')
   async findAll(
     @Query()
-    query: Paragraph & { page?: string; pageSize?: string; keywords?: string },
+    query: Paragraph & {
+      page?: string
+      pageSize?: string
+      category?: string
+      tag?: string
+      keywords?: string
+    },
   ) {
     const pageSize = parseInt(query?.pageSize) || 10
     const pageNumber = parseInt(query.page) || 1
@@ -51,7 +57,10 @@ export class ParagraphController {
         Object.assign(
           {},
           query.resource && { resource: query.resource },
-          query.tags && { tags: query.tags },
+
+          // 句子关联多个标签，查询出 tags 中包含 tag 的记录
+          query.tag && { tags: { $elemMatch: { $eq: query.tag } } },
+          // 模糊查询
           query.keywords && {
             content: { $regex: query.keywords, $options: 'i' },
           },
