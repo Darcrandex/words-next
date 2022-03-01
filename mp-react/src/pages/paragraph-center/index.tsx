@@ -5,6 +5,7 @@
  */
 
 import Taro from '@tarojs/taro'
+import { ScrollView } from '@tarojs/components'
 import React, { useMemo, useState } from 'react'
 import { useSetState, useAsyncEffect } from 'ahooks'
 import { apiGetParagraphs, Paragraph, ListFetchQuery } from '@/apis/paragraph'
@@ -34,6 +35,16 @@ const ParagraphCenter: React.FC = () => {
     <>
       <h1>ParagraphCenter</h1>
       <p className='wrap'>{JSON.stringify(query)}</p>
+
+      <ScrollView scrollY scrollWithAnimation style={{ height: 500 }}>
+        {Array(50)
+          .fill(0)
+          .map((_, i) => (
+            <p key={i} className='p-6'>
+              {i}
+            </p>
+          ))}
+      </ScrollView>
     </>
   )
 }

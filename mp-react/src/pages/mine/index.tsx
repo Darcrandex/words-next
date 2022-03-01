@@ -7,6 +7,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import SectionTitle from '@/components/SectionTitle'
+import BottomTabNavs from '@/containers/BottomTabNavs'
+
 import { mergeClassNames } from '@/utils'
 import { useUser } from '@/stores/use-user'
 import './styles.less'
@@ -100,6 +102,8 @@ const Mine: React.FC = () => {
           </div>
         ))}
       </section>
+
+      <BottomTabNavs />
     </>
   )
 }

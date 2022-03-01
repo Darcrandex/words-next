@@ -1,6 +1,6 @@
 import { http } from '@/utils/http'
 
-export interface Catogory {
+export interface Category {
   _id: string
   name: string
   cover?: string
@@ -8,5 +8,5 @@ export interface Catogory {
 }
 
 export async function apiGetCategories() {
-  return http.get<{ list: Catogory[]; total: number }>('/category/list')
+  return http.get<{ list: Category[]; total: number }>('/category/list')
 }

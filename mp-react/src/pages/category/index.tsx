@@ -4,12 +4,13 @@
  * @author darcrand
  */
 
+import Taro from '@tarojs/taro'
 import React, { useState } from 'react'
 import { useAsyncEffect } from 'ahooks'
 import SectionTitle from '@/components/SectionTitle'
+import BottomTabNavs from '@/containers/BottomTabNavs'
 
 import { apiGetTags } from '@/apis/tag'
-import Taro from '@tarojs/taro'
 
 type TagGroup = {
   _id: string
@@ -61,6 +62,8 @@ const Category: React.FC = () => {
           )}
         </React.Fragment>
       ))}
+
+      <BottomTabNavs />
     </>
   )
 }
