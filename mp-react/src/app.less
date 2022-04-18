@@ -1,10 +1,28 @@
 // 引入字体图标
 @import url('./iconfont.less');
 
+@theme-color: #ff5252;
+
+// 隐藏滚动条
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
   display: none;
   opacity: 0;
+}
+
+// 主题相关
+.bg-theme {
+  background-color: @theme-color;
+}
+
+.text-theme {
+  color: @theme-color;
+}
+
+// 由于 taiwindcss 的阴影没有上檐
+// 自定义阴影
+.shadow-a {
+  box-shadow: 0 8px 20px rgba(184, 184, 188, 0.5);
 }

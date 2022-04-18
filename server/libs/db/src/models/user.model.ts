@@ -6,12 +6,23 @@ export enum Roles {
 }
 
 export class User {
+  // 数据库必须字段
   @Prop({ required: true })
   role!: Roles
 
   @Prop({ required: true })
   openid!: string
 
+  // 自定义字段
+  // 个人空间背景
+  @Prop()
+  bgUrl?: string
+
+  // 个人描述(相当于个性签名)
+  @Prop()
+  description?: string
+
+  // 小程序用户数据自带字段
   @Prop()
   nickName: string
 

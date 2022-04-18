@@ -18,7 +18,6 @@ export function useSafeArea() {
   useMount(async () => {
     const systomInfo = await Taro.getSystemInfo()
     const rect = Taro.getMenuButtonBoundingClientRect()
-    console.log('systomInfo', systomInfo)
 
     updateSafeArea({
       statusBarHeight: systomInfo.statusBarHeight,

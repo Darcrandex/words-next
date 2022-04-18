@@ -13,14 +13,18 @@ import AuthWrapper from '@/containers/AuthWrapper'
 import BottomTabNavs, { BAR_HEIGHT } from '@/containers/BottomTabNavs'
 import SectionTitle from '@/components/SectionTitle'
 import { useSafeArea } from '@/stores/use-safe-area'
+import { useUser } from '@/stores/use-user'
 import { apiGetBanners, Banner } from '@/apis/common'
 import { apiGetCategories, Category } from '@/apis/category'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
-import { mergeClassNames, sleep } from '@/utils'
+import { mergeClassNames } from '@/utils'
 
 export const HEADER_BOTTOM = 8
 
 const Home: React.FC = () => {
+  const { loginOnLaunch } = useUser()
+  useMount(loginOnLaunch)
+
   // 布局相关
   const { safeArea } = useSafeArea()
   const headerTop = useMemo(() => safeArea.menuBtnRect.top + safeArea.menuBtnRect.height ?? 44, [safeArea])
@@ -93,7 +97,7 @@ const Home: React.FC = () => {
       <header
         className={mergeClassNames(
           'fixed top-0 left-0 right-0 z-10 flex items-end bg-white transition',
-          shouldFixed && 'shadow-lg'
+          shouldFixed && 'shadow-a'
         )}
         style={{ height: headerTop, paddingBottom: HEADER_BOTTOM }}
       >
@@ -113,7 +117,7 @@ const Home: React.FC = () => {
         onScrollToLower={onScrollToLower}
         onScroll={onScroll}
       >
-        <Swiper autoplay indicatorColor='#aaa' indicatorActiveColor='#555' indicatorDots className='h-40'>
+        <Swiper autoplay className='h-36'>
           {banners.map(v => (
             <SwiperItem key={v.id}>
               <div className='relative mx-4'>
@@ -122,8 +126,8 @@ const Home: React.FC = () => {
                   style={{ backgroundImage: `url('${v.imageUrl}')` }}
                 />
                 <div
-                  className='absolute left-0 right-0 bottom-0 z-1 h-10 bg-bottom bg-cover rounded-b-lg filter blur'
-                  style={{ backgroundImage: `url('${v.imageUrl}')`, transform: 'translateY(20%) scale(0.9)' }}
+                  className='absolute left-0 right-0 bottom-0 z-1 h-10 bg-bottom bg-cover rounded-b-lg opacity-30'
+                  style={{ backgroundImage: `url('${v.imageUrl}')`, transform: 'translateY(25%) scale(0.9)' }}
                 />
               </div>
             </SwiperItem>
@@ -138,7 +142,7 @@ const Home: React.FC = () => {
             >
               <div className='mx-4'>
                 <div
-                  className='rounded-full bg-blue-50 bg-cover bg-center shadow-md'
+                  className='rounded-full bg-blue-50 bg-cover bg-center shadow-a'
                   style={{ paddingTop: '100%', backgroundImage: `url("${v.cover}")` }}
                 />
               </div>
@@ -150,7 +154,14 @@ const Home: React.FC = () => {
         <SectionTitle>热门推荐</SectionTitle>
 
         {paragraphState.list.map(v => (
-          <article key={v._id} className='m-4 mb-8 rounded-lg overflow-hidden shadow-lg bg-white'>
+          <article
+            key={v._id}
+            className='m-4 mb-8 rounded-lg overflow-hidden shadow-a bg-white'
+            onClick={e => {
+              e.stopPropagation()
+              Taro.navigateTo({ url: `/pages/paragraph-detail/index?id=${v._id}` })
+            }}
+          >
             <Image src={v.cover} mode='aspectFill' className='w-full h-40 bg-center bg-cover bg-blue-50' />
 
             <section className='m-4'>

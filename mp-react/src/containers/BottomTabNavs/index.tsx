@@ -6,11 +6,13 @@
 
 import Taro from '@tarojs/taro'
 import { Image } from '@tarojs/components'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useSafeArea } from '@/stores/use-safe-area'
 
-import icoHome from '@/assets/icons/tab-home.png'
-import icoMine from '@/assets/icons/tab-mine.png'
+import icoHome from '@/assets/icons/3.svg'
+import icoHomeActive from '@/assets/icons/1.svg'
+import icoMine from '@/assets/icons/4.svg'
+import icoMineActive from '@/assets/icons/2.svg'
 
 import './index.less'
 
@@ -19,19 +21,19 @@ const list = [
     pagePath: 'pages/home/index',
     text: '',
     iconPath: icoHome,
-    selectedIconPath: 'assets/icons/tab-home-active.png'
+    selectedIconPath: icoHomeActive
   },
-  {
-    pagePath: 'pages/category/index',
-    text: '',
-    iconPath: icoHome,
-    selectedIconPath: 'assets/icons/tab-home-active.png'
-  },
+  // {
+  //   pagePath: 'pages/category/index',
+  //   text: '',
+  //   iconPath: icoHome,
+  //   selectedIconPath: icoHomeActive
+  // },
   {
     pagePath: 'pages/mine/index',
     text: '',
     iconPath: icoMine,
-    selectedIconPath: 'assets/icons/tab-mine-active.png'
+    selectedIconPath: icoMineActive
   }
 ]
 
@@ -42,27 +44,29 @@ const BottomTabNavs: React.FC = () => {
   const currPath = useMemo(() => Taro.getCurrentInstance().router?.path, [])
   const { safeArea } = useSafeArea()
 
-  useEffect(() => {
-    console.log('currPath', currPath)
-  }, [currPath])
-
   const onTab = useCallback((url: string) => {
-    Taro.switchTab({ url })
+    // 不知道为啥要加 '/'
+    Taro.switchTab({ url: '/' + url })
   }, [])
+
   return (
     <>
       <footer
-        className='fixed z-100 left-0 bottom-0 right-0 flex items-center bg-white rounded-t-2xl overflow-hidden bottom-nav-bar'
+        className='fixed z-100 left-0 bottom-0 right-0 flex items-center bg-white rounded-t-3xl overflow-hidden bottom-nav-bar'
         style={{ paddingBottom: safeArea.safeAreaBottom }}
       >
         {list.map(v => (
           <div
             key={v.pagePath}
-            className={`flex flex-col items-center justify-center w-1_${list.length}`}
+            className='flex flex-col flex-1 items-center justify-center'
             style={{ height: BAR_HEIGHT }}
-            onClick={() => onTab('/' + v.pagePath)}
+            onClick={() => onTab(v.pagePath)}
           >
-            <Image src={v.iconPath} mode='aspectFill' style={{ width: BAR_HEIGHT - 16, height: BAR_HEIGHT - 16 }} />
+            <Image
+              src={currPath?.includes(v.pagePath) ? v.selectedIconPath : v.iconPath}
+              mode='aspectFill'
+              style={{ width: BAR_HEIGHT - 16, height: BAR_HEIGHT - 16 }}
+            />
           </div>
         ))}
       </footer>

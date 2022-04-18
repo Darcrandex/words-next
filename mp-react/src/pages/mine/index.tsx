@@ -1,106 +1,66 @@
 /**
  * @name Mine
- * @description
+ * @description 我的（个人中心）
  * @author darcrand
  */
 
-import React, { useState, useEffect, useMemo } from 'react'
-import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
-import SectionTitle from '@/components/SectionTitle'
+import { Image } from '@tarojs/components'
 import BottomTabNavs from '@/containers/BottomTabNavs'
-
-import { mergeClassNames } from '@/utils'
+import Icon from '@/components/Icon'
 import { useUser } from '@/stores/use-user'
-import './styles.less'
+
+import iconMedal from '@/assets/icons/icon-medal.svg'
+import iconIdea from '@/assets/icons/icon-idea.svg'
+import iconArrowRight from '@/assets/icons/icon-arrow-right.svg'
+import iconCollection from '@/assets/icons/icon-collection-theme.svg'
+import iconAbout from '@/assets/icons/icon-about-theme.svg'
+import iconSetting from '@/assets/icons/icon-setting-theme.svg'
+
+import './style.less'
 
 const Mine: React.FC = () => {
   const { info, hadLogined, signUp } = useUser()
 
-  const [list, setList] = useState<(Paragraph & { height: number })[]>([])
-  useEffect(() => {
-    apiGetParagraphs().then(res => setList(res.list.map(v => ({ ...v, height: ~~(Math.random() * 150) + 100 }))))
-  }, [])
-  const groups = useMemo(() => {
-    const leftList: (Paragraph & { height: number })[] = []
-    let leftListTotalHeight = 0
-    const rightList: (Paragraph & { height: number })[] = []
-    let rightListTotalHeight = 0
-
-    list.forEach(item => {
-      const currHeight = item.height + item.content.length
-      if (leftListTotalHeight > rightListTotalHeight) {
-        rightListTotalHeight += currHeight
-        rightList.push(item)
-      } else {
-        leftListTotalHeight += currHeight
-        leftList.push(item)
-      }
-    })
-
-    return [
-      { key: 'left', list: leftList },
-      { key: 'right', list: rightList }
-    ]
-  }, [list])
-
   return (
     <>
-      <section className='relative p-4 pt-0 overflow-hidden'>
-        <div className='rounded-bg bg-red-400'></div>
-        <div className='relative z-2 p-4 rounded-lg bg-gray-50 shadow-lg' onClick={signUp}>
-          <section className='flex items-center'>
-            <div
-              className='mr-2 w-15 h-15 rounded-full shadow-md bg-gray-300 bg-center bg-cover'
-              style={{ backgroundImage: `url("${info.avatarUrl}")` }}
-            ></div>
-            <div className={mergeClassNames(hadLogined ? 'hidden' : 'text-gray-800')}>点击登录</div>
-
-            <div className={mergeClassNames(!hadLogined && 'hidden')}>
-              <h2 className='mb-1 text-gray-800'>{info.nickName}</h2>
-              <p>
-                <span className='inline-block text-xs text-gray-400'>LV 1</span>
-                <span className='inline-block ml-2 px-1 text-xs text-gray-50 rounded-tl-lg rounded-r-lg bg-red-400'>
-                  小萌新
-                </span>
-              </p>
-            </div>
-          </section>
+      <section className='flex items-center m-2 p-2'>
+        <i
+          className='w-18 h-18 rounded-full bg-gray-200 bg-center bg-cover shadow-a'
+          style={{ backgroundImage: `url("${info.avatarUrl}")` }}
+        />
+        <div className='ml-4'>
+          <span className='text-2xl text-gray-800'>{info.nickName}</span>
+          <span className='inline-block px-2 bg-theme text-white text-xs rounded-full rounded-tl-none'>小萌新</span>
         </div>
       </section>
 
-      <SectionTitle>我的收藏</SectionTitle>
-
       <section className='flex m-2'>
-        {groups.map(group => (
-          <div key={group.key} style={{ width: '50%' }}>
-            {group.list.map(v => (
-              <article key={v._id}>
-                <section className='rounded-lg overflow-hidden mx-2 mb-4 shadow-md'>
-                  <div
-                    className='bg-center bg-cover bg-blue-50'
-                    style={{ backgroundImage: `url("${v.cover}")`, height: `${v.height}px` }}
-                  ></div>
-                  <section className='m-2'>
-                    {v.content?.split('\n').map(str => (
-                      <p key={str} className='mb-1 last:mb-0 text-xs text-gray-600'>
-                        {str}
-                      </p>
-                    ))}
-                  </section>
+        <div className='flex items-center flex-1 m-2 p-4 rounded-lg shadow-a bg-pink-50'>
+          <Image mode='aspectFill' src={iconMedal} className='w-10 h-10 mr-2' />
+          <span className='text-gray-800'>我的勋章</span>
+        </div>
+        <div className='flex items-center flex-1 m-2 p-4 rounded-lg shadow-a bg-teal-50'>
+          <Image mode='aspectFill' src={iconIdea} className='w-10 h-10 mr-2' />
+          <span className='text-gray-800'>我的片语</span>
+        </div>
+      </section>
 
-                  <p className='pb-2 px-2'>
-                    {!!v.resource?.author?.name && (
-                      <span className='inline-block mr-1 text-xs text-gray-400'>{v.resource?.author?.name}</span>
-                    )}
-                    {!!v.resource?.name && (
-                      <span className='inline-block text-xs text-gray-400'>《{v.resource?.name}》</span>
-                    )}
-                  </p>
-                </section>
-              </article>
-            ))}
-          </div>
-        ))}
+      <section className='m-4 p-2 rounded-lg shadow-a bg-white'>
+        <div className='flex items-center mx-2 py-2 link-item'>
+          <Icon url={iconCollection} size={24} />
+          <span className='ml-2 mr-auto text-gray-800'>我的收藏</span>
+          <Icon url={iconArrowRight} size={16} />
+        </div>
+        <div className='flex items-center mx-2 py-2 link-item'>
+          <Icon url={iconAbout} size={24} />
+          <span className='ml-2 mr-auto text-gray-800'>关于</span>
+          <Icon url={iconArrowRight} size={16} />
+        </div>
+        <div className='flex items-center mx-2 py-2'>
+          <Icon url={iconSetting} size={24} />
+          <span className='ml-2 mr-auto text-gray-800'>设置</span>
+          <Icon url={iconArrowRight} size={16} />
+        </div>
       </section>
 
       <BottomTabNavs />

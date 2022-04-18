@@ -1,5 +1,17 @@
 export default defineAppConfig({
-  pages: ['pages/home/index', 'pages/category/index', 'pages/mine/index', 'pages/paragraph-center/index'],
+  pages: [
+    'pages/home/index',
+    'pages/category/index',
+    'pages/mine/index',
+    'pages/paragraph-center/index',
+    'pages/paragraph-detail/index',
+
+    'pages/about/index',
+    'pages/collection/index',
+    'pages/medal/index',
+    'pages/my-words/index',
+    'pages/settings/index'
+  ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

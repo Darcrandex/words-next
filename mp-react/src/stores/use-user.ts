@@ -1,5 +1,4 @@
 import Taro from '@tarojs/taro'
-import { useMemo } from 'react'
 import { atom, useRecoilState } from 'recoil'
 import { apiUserLogin, apiUserSignUp, UserModel } from '@/apis/user'
 
@@ -19,7 +18,7 @@ const stateAtom = atom<UserModel>({
 
 export function useUser() {
   const [info, setInfo] = useRecoilState(stateAtom)
-  const hadLogined = useMemo(() => info.openid && info.nickName, [info.openid, info.nickName])
+  const hadLogined = info.openid && info.nickName
 
   // 进入 app 自动登录
   const loginOnLaunch = async () => {
@@ -30,7 +29,11 @@ export function useUser() {
 
     // 如果有用户直接设置
     if (res.user) {
-      setInfo(res.user)
+      setInfo({
+        ...res.user,
+        // 默认返回的大小为 132，太模糊；改成 0，能获取原始大小
+        avatarUrl: res.user.avatarUrl.replace('132', '0')
+      })
 
       // 缓存token
       if (res.token) {

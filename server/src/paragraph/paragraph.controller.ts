@@ -80,7 +80,14 @@ export class ParagraphController {
 
   @Get('/detail/:id')
   async findById(@Param('id') id: string) {
-    const record = await this.paragraphModel.findById(id)
-    return { record }
+    const record = await this.paragraphModel
+      .findById(id)
+      .populate({
+        path: 'resource',
+        populate: [{ path: 'author' }, { path: 'category' }],
+      })
+      .populate('tags')
+      .exec()
+    return record
   }
 }
