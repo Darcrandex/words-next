@@ -6,10 +6,6 @@ const path = require('path')
 const dotenv = require('dotenv')
 
 module.exports = function() {
-  // 真正使用的運行模式
-  // 'development' | 'production'
-  const mode = process.env.MODE || 'production'
-
   // 允許的 env 配置文件，會從低到高的優先級合併
   const paths = [
     '.env',
@@ -18,7 +14,7 @@ module.exports = function() {
     '.env.local',
     '.env.production.local',
     '.env.development.local'
-  ].filter(p => p === '.env' || p === '.env.local' || p.includes(mode))
+  ]
 
   const envs = paths.map(p => dotenv.config({ path: path.resolve(__dirname, '..', p) }).parsed || {})
   const mergedEnv = Object.assign({}, ...envs)

@@ -40,6 +40,9 @@ const list = [
 // 底部导航的内容高度
 export const BAR_HEIGHT = 42
 
+// 导航条顶部的圆角尺寸
+export const BAR_RADIUS = 22
+
 const BottomTabNavs: React.FC = () => {
   const currPath = useMemo(() => Taro.getCurrentInstance().router?.path, [])
   const { safeArea } = useSafeArea()
@@ -52,8 +55,12 @@ const BottomTabNavs: React.FC = () => {
   return (
     <>
       <footer
-        className='fixed z-100 left-0 bottom-0 right-0 flex items-center bg-white rounded-t-3xl overflow-hidden bottom-nav-bar'
-        style={{ paddingBottom: safeArea.safeAreaBottom }}
+        className='fixed z-100 left-0 bottom-0 right-0 flex items-center bg-white rounded-t-4xl overflow-hidden bottom-nav-bar'
+        style={{
+          paddingBottom: safeArea.safeAreaBottom,
+          borderTopLeftRadius: BAR_RADIUS,
+          borderTopRightRadius: BAR_RADIUS
+        }}
       >
         {list.map(v => (
           <div

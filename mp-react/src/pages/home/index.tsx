@@ -10,7 +10,7 @@ import { ScrollView, Image, SwiperItem, Swiper, ScrollViewProps, BaseEventOrig }
 import { useSetState, useMount } from 'ahooks'
 
 import AuthWrapper from '@/containers/AuthWrapper'
-import BottomTabNavs, { BAR_HEIGHT } from '@/containers/BottomTabNavs'
+import BottomTabNavs, { BAR_HEIGHT, BAR_RADIUS } from '@/containers/BottomTabNavs'
 import SectionTitle from '@/components/SectionTitle'
 import { useSafeArea } from '@/stores/use-safe-area'
 import { useUser } from '@/stores/use-user'
@@ -29,7 +29,7 @@ const Home: React.FC = () => {
   const { safeArea } = useSafeArea()
   const headerTop = useMemo(() => safeArea.menuBtnRect.top + safeArea.menuBtnRect.height ?? 44, [safeArea])
   const scrollHeight = useMemo(
-    () => safeArea.screenHeight - headerTop - BAR_HEIGHT - HEADER_BOTTOM - safeArea.safeAreaBottom,
+    () => safeArea.screenHeight - headerTop - BAR_HEIGHT - HEADER_BOTTOM - safeArea.safeAreaBottom + BAR_RADIUS,
     [headerTop, safeArea.safeAreaBottom, safeArea.screenHeight]
   )
 
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
       <header
         className={mergeClassNames(
           'fixed top-0 left-0 right-0 z-10 flex items-end bg-white transition',
-          shouldFixed && 'shadow-a'
+          shouldFixed && 'shadow-m'
         )}
         style={{ height: headerTop, paddingBottom: HEADER_BOTTOM }}
       >
@@ -142,7 +142,7 @@ const Home: React.FC = () => {
             >
               <div className='mx-4'>
                 <div
-                  className='rounded-full bg-blue-50 bg-cover bg-center shadow-a'
+                  className='rounded-full bg-blue-50 bg-cover bg-center shadow-m'
                   style={{ paddingTop: '100%', backgroundImage: `url("${v.cover}")` }}
                 />
               </div>
@@ -151,12 +151,12 @@ const Home: React.FC = () => {
           ))}
         </section>
 
-        <SectionTitle>热门推荐</SectionTitle>
+        <SectionTitle>希望你喜欢</SectionTitle>
 
         {paragraphState.list.map(v => (
           <article
             key={v._id}
-            className='m-4 mb-8 rounded-lg overflow-hidden shadow-a bg-white'
+            className='m-4 mb-8 rounded-lg overflow-hidden shadow-m bg-white'
             onClick={e => {
               e.stopPropagation()
               Taro.navigateTo({ url: `/pages/paragraph-detail/index?id=${v._id}` })
@@ -195,7 +195,7 @@ const Home: React.FC = () => {
           </article>
         ))}
 
-        <div className='pt-1'></div>
+        <div style={{ paddingBottom: BAR_RADIUS }}></div>
       </ScrollView>
 
       <BottomTabNavs />

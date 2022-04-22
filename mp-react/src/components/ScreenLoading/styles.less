@@ -1,0 +1,44 @@
+@time: 0.25s;
+
+.cover-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(#fff, 0.25);
+  overflow: hidden;
+  transition: opacity @time;
+
+  &.show {
+    bottom: 0;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hide {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.loading-ico {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border: 8px solid rgba(#fff, 0.75);
+  border-top-color: rgba(#ff5252, 0.85);
+
+  animation: spinning 1s infinite linear;
+}
+
+@keyframes spinning {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

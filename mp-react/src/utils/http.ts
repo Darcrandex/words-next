@@ -25,8 +25,10 @@ async function requestAsync<R>(options: {
   const token = await getToken()
 
   const requestOptions: Taro.request.Option = {
+    // 因为小程序的请求，没有 params 参数，params 部分是集成到 url 中的
+    // 需要转化以下
     url: queryString.stringifyUrl({
-      url: process.env.BASE_URL + options.url,
+      url: process.env.API_SERVER_URL + options.url,
       query: options.params as queryString.StringifiableRecord
     }),
     method: options.method,

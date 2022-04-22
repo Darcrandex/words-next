@@ -73,8 +73,8 @@ yarn add query-string
 
 先按照官方文档：[自定义 tabBar](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html) 完成配置.
 
-然后把这个组件的内容清空，只保留一个 `<view></view>`。这样 tabBar 依然可以生效，只是没有按钮可以点击。
-然后我们自己封装一个 tabBar 按钮组件（`/src/containers/BottomTabNavs/index.tsx`），把它放到没一个 tab 级别的业务组件，通过这个组件来触发切换 tab 的功能。
+然后把这个组件的内容清空，只保留一个 `<view></view>`。这样自定义的 tabBar 依然可以生效，只是没有按钮可以点击。
+然后我们自己封装一个 tabBar 按钮组件（`/src/containers/BottomTabNavs/index.tsx`），把它放到每一个 tab 级别的业务组件，通过这个组件来触发切换 tab 的功能。
 
 ## 小程序图片限制
 

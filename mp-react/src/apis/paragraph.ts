@@ -5,6 +5,7 @@ export interface Paragraph {
   content: string
   cover: string
   resource: { name: string; author: { name: string }; category: { name: string } }
+  tags: Array<{ _id: string; name: string }>
 }
 
 export type ListFetchQuery = {
