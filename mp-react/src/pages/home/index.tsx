@@ -7,11 +7,12 @@
 import Taro from '@tarojs/taro'
 import React, { useCallback, useMemo, useState } from 'react'
 import { ScrollView, Image, SwiperItem, Swiper, ScrollViewProps, BaseEventOrig } from '@tarojs/components'
-import { useSetState, useMount } from 'ahooks'
+import { useMount } from 'ahooks'
 
 import AuthWrapper from '@/containers/AuthWrapper'
 import BottomTabNavs, { BAR_HEIGHT, BAR_RADIUS } from '@/containers/BottomTabNavs'
 import SectionTitle from '@/components/SectionTitle'
+import ScreenLoading from '@/components/ScreenLoading'
 import { useSafeArea } from '@/stores/use-safe-area'
 import { useUser } from '@/stores/use-user'
 import { apiGetBanners, Banner } from '@/apis/common'
@@ -22,6 +23,7 @@ import { mergeClassNames } from '@/utils'
 export const HEADER_BOTTOM = 8
 
 const Home: React.FC = () => {
+  // 自动登录
   const { loginOnLaunch } = useUser()
   useMount(loginOnLaunch)
 
@@ -40,57 +42,54 @@ const Home: React.FC = () => {
     []
   )
 
-  // banner
+  // 数据请求
   const [banners, setBanners] = useState<Banner[]>([])
-  useMount(async () => {
-    const arr = await apiGetBanners()
-    setBanners(arr)
-  })
-
-  // 分类
   const [categories, setCategories] = useState<Category[]>([])
-  useMount(async () => {
-    const res = await apiGetCategories()
-    setCategories(res.list.slice(0, 4))
-  })
+  const [query, setQuery] = useState({ page: 1 })
+  const [list, setList] = useState<(Paragraph & { height: number })[]>([])
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(false)
 
-  // 主列表
-  const [paragraphState, setParagraph] = useSetState<{ query: { page: number }; list: Paragraph[]; total: number }>({
-    query: { page: 1 },
-    list: [],
-    total: 0
-  })
+  const onRefresherRefresh = useCallback(async () => {
+    setLoading(true)
 
-  useMount(() => {
-    apiGetParagraphs().then(res => setParagraph(res))
-  })
+    // 轮播图片
+    const bannerRes = await apiGetBanners()
+    setBanners(bannerRes)
 
-  // 下拉刷新
-  const [triggered, setTriggered] = useState(false)
-  const onRefresherRefresh = useCallback(() => {
-    setTriggered(true)
-    setParagraph({ query: { page: 1 } })
-    apiGetParagraphs()
-      .then(res => {
-        setParagraph({ list: res.list, total: res.total })
-      })
-      .finally(() => {
-        setTriggered(false)
-      })
-  }, [setParagraph])
+    // 分类（只要前4个）
+    const categoryRes = await apiGetCategories()
+    setCategories(categoryRes.list.slice(0, 4))
+
+    // 句子列表
+    const paragraphRes = await apiGetParagraphs()
+    setList(paragraphRes.list.map(v => ({ ...v, height: ~~(Math.random() * 150) + 100 })))
+    setTotal(paragraphRes.total)
+
+    // 重置参数
+    setQuery(currQuery => ({ ...currQuery, page: 1 }))
+
+    setLoading(false)
+  }, [])
+
+  // 初始化自动刷新一次
+  useMount(onRefresherRefresh)
 
   // 加载更多
-  const onScrollToLower = useCallback(() => {
-    if (paragraphState.list.length < paragraphState.total) {
-      apiGetParagraphs({ page: paragraphState.query.page + 1 }).then(res => {
-        setParagraph(prev => ({
-          query: { page: prev.query.page + 1 },
-          list: prev.list.concat(res.list),
-          total: res.total
-        }))
-      })
+  const onScrollToLower = useCallback(async () => {
+    if (list.length < total) {
+      setLoading(true)
+
+      const nextQuery = { ...query, page: query.page + 1 }
+      setQuery(nextQuery)
+
+      const res = await apiGetParagraphs(nextQuery)
+      setList(curr => curr.concat(...res.list.map(v => ({ ...v, height: ~~(Math.random() * 150) + 100 }))))
+      setTotal(res.total)
+
+      setLoading(false)
     }
-  }, [paragraphState.list.length, paragraphState.query.page, paragraphState.total, setParagraph])
+  }, [list.length, total, query])
 
   return (
     <>
@@ -112,7 +111,7 @@ const Home: React.FC = () => {
         style={{ height: scrollHeight }}
         scrollWithAnimation
         refresherEnabled
-        refresherTriggered={triggered}
+        refresherTriggered={loading}
         onRefresherRefresh={onRefresherRefresh}
         onScrollToLower={onScrollToLower}
         onScroll={onScroll}
@@ -153,7 +152,7 @@ const Home: React.FC = () => {
 
         <SectionTitle>希望你喜欢</SectionTitle>
 
-        {paragraphState.list.map(v => (
+        {list.map(v => (
           <article
             key={v._id}
             className='m-4 mb-8 rounded-lg overflow-hidden shadow-m bg-white'
@@ -195,10 +194,12 @@ const Home: React.FC = () => {
           </article>
         ))}
 
-        <div style={{ paddingBottom: BAR_RADIUS }}></div>
+        <div style={{ height: BAR_RADIUS }}></div>
       </ScrollView>
 
       <BottomTabNavs />
+
+      <ScreenLoading loading={loading} />
     </>
   )
 }
