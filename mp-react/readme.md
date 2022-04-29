@@ -68,6 +68,7 @@ yarn add query-string
 ## 使用 iconfont 字体图标
 
 [参考文章](https://www.duoguyu.com/smart/42.html)
+由于字体图标的显示效果不好，放弃这个方案。
 
 ## 自定义底部 tabbar
 

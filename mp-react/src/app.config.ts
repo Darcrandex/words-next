@@ -28,21 +28,15 @@ export default defineAppConfig({
     list: [
       {
         pagePath: 'pages/home/index',
-        text: '',
-        iconPath: 'assets/icons/tab-home.png',
-        selectedIconPath: 'assets/icons/tab-home-active.png'
+        text: ''
       },
       {
         pagePath: 'pages/category/index',
-        text: '',
-        iconPath: 'assets/icons/tab-home.png',
-        selectedIconPath: 'assets/icons/tab-home-active.png'
+        text: ''
       },
       {
         pagePath: 'pages/mine/index',
-        text: '',
-        iconPath: 'assets/icons/tab-mine.png',
-        selectedIconPath: 'assets/icons/tab-mine-active.png'
+        text: ''
       }
     ]
   }

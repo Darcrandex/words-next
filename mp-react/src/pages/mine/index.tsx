@@ -14,7 +14,7 @@ import AuthWrapper from '@/containers/AuthWrapper'
 import iconMedal from '@/assets/icons/icon-medal.svg'
 import iconIdea from '@/assets/icons/icon-idea.svg'
 import iconArrowRight from '@/assets/icons/icon-arrow-right.svg'
-import iconCollection from '@/assets/icons/icon-collection-theme.svg'
+import iconCollection from '@/assets/icons/icon-collect-active.svg'
 import iconAbout from '@/assets/icons/icon-about-theme.svg'
 import iconSetting from '@/assets/icons/icon-setting-theme.svg'
 
@@ -64,16 +64,21 @@ const Mine: React.FC = () => {
           </div>
         </AuthWrapper>
 
-        <div className='flex items-center mx-2 py-2 link-item'>
-          <Icon url={iconAbout} size={24} />
-          <span className='ml-2 mr-auto text-gray-800 text-sm'>关于</span>
-          <Icon url={iconArrowRight} size={16} />
-        </div>
-        <div className='flex items-center mx-2 py-2'>
-          <Icon url={iconSetting} size={24} />
-          <span className='ml-2 mr-auto text-gray-800 text-sm'>设置</span>
-          <Icon url={iconArrowRight} size={16} />
-        </div>
+        <AuthWrapper onClick={() => Taro.navigateTo({ url: '/pages/about/index' })}>
+          <div className='flex items-center mx-2 py-2 link-item'>
+            <Icon url={iconAbout} size={24} />
+            <span className='ml-2 mr-auto text-gray-800 text-sm'>关于</span>
+            <Icon url={iconArrowRight} size={16} />
+          </div>
+        </AuthWrapper>
+
+        <AuthWrapper onClick={() => Taro.navigateTo({ url: '/pages/settings/index' })}>
+          <div className='flex items-center mx-2 py-2'>
+            <Icon url={iconSetting} size={24} />
+            <span className='ml-2 mr-auto text-gray-800 text-sm'>设置</span>
+            <Icon url={iconArrowRight} size={16} />
+          </div>
+        </AuthWrapper>
       </section>
 
       <BottomTabNavs />

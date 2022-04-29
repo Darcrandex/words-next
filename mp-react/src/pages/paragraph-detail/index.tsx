@@ -5,7 +5,7 @@
  */
 
 import Taro from '@tarojs/taro'
-import { Image } from '@tarojs/components'
+import { Image, Textarea } from '@tarojs/components'
 import React, { useMemo, useState } from 'react'
 import { useMount, useAsyncEffect } from 'ahooks'
 import { apiGetParagraphById, Paragraph } from '@/apis/paragraph'
@@ -34,6 +34,13 @@ const ParagraphDetail: React.FC = () => {
     }
   }, [data])
 
+  const [commentText, setCommentText] = useState('')
+
+  const onSend = () => {
+    console.log('commentText', commentText)
+    setCommentText('')
+  }
+
   return (
     <>
       <Image className='w-full bg-gray-100' mode='aspectFill' src={data?.cover || ''} style={{ height: coverHeight }} />
@@ -50,6 +57,8 @@ const ParagraphDetail: React.FC = () => {
 
       <Divider className='m-4' />
 
+      {!!data?.description && <section className='m-4 text-sm text-gray-600 indent-2'>{data.description}</section>}
+
       {data?.tags && data?.tags.length > 0 && (
         <section className='m-4'>
           <span className='inline-block py-1 text-xs text-gray-600'>#</span>
@@ -62,6 +71,17 @@ const ParagraphDetail: React.FC = () => {
       )}
 
       <SectionTitle>议论纷纷</SectionTitle>
+      <div className='m-4 p-2 rounded bg-gray-50 text-gray-600'>
+        <Textarea
+          autoHeight
+          value={commentText}
+          onInput={event => setCommentText(event.detail.value)}
+          maxlength={200}
+          cursorSpacing={24}
+          placeholder='评论一下呗 ╭(●`∀′●)╯'
+          onConfirm={onSend}
+        />
+      </div>
 
       <ScreenLoading loading={!data} />
     </>

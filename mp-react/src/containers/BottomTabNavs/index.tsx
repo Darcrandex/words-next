@@ -9,10 +9,10 @@ import { Image } from '@tarojs/components'
 import React, { useCallback, useMemo } from 'react'
 import { useSafeArea } from '@/stores/use-safe-area'
 
-import icoHome from '@/assets/icons/3.svg'
-import icoHomeActive from '@/assets/icons/1.svg'
-import icoMine from '@/assets/icons/4.svg'
-import icoMineActive from '@/assets/icons/2.svg'
+import icoHome from '@/assets/icons/tab-home.svg'
+import icoHomeActive from '@/assets/icons/tab-home-active.svg'
+import icoMine from '@/assets/icons/tab-mine.svg'
+import icoMineActive from '@/assets/icons/tab-mine-active.svg'
 
 import './index.less'
 

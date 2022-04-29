@@ -19,6 +19,14 @@ import { apiGetCategories, Category } from '@/apis/category'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { mergeClassNames } from '@/utils'
 
+import iconLike from '@/assets/icons/icon-like.svg'
+import iconLikeActive from '@/assets/icons/icon-like-active.svg'
+import iconCollect from '@/assets/icons/icon-collect.svg'
+import iconCollectActive from '@/assets/icons/icon-collect-active.svg'
+import iconShare from '@/assets/icons/icon-share.svg'
+import iconShareActive from '@/assets/icons/icon-share-active.svg'
+import Icon from '@/components/Icon'
+
 export const HEADER_BOTTOM = 8
 
 const Home: React.FC = () => {
@@ -72,7 +80,10 @@ const Home: React.FC = () => {
     setParagraph({ query: { page: 1 } })
     apiGetParagraphs()
       .then(res => {
-        setParagraph({ list: res.list, total: res.total })
+        setParagraph({
+          list: res.list.map(v => ({ ...v, liked: Math.random() > 0.2, collected: Math.random() > 0.2, shared: true })),
+          total: res.total
+        })
       })
       .finally(() => {
         setTriggered(false)
@@ -178,18 +189,18 @@ const Home: React.FC = () => {
               {!!v.resource?.name && <span className='inline ml-1'>《{v.resource?.name}》</span>}
             </section>
 
-            <section className='grid grid-cols-3'>
-              <AuthWrapper className='flex items-center p-4'>
-                <i className='iconfont icon-collection text-lg text-center text-gray-400'></i>
-                <span className='ml-1 text-xs text-gray-400'>0</span>
+            <section className='flex justify-around'>
+              <AuthWrapper className='flex items-center py-4'>
+                <Icon url={v.liked ? iconLikeActive : iconLike} size={18} />
+                <span className='w-6 ml-1 text-xs text-gray-500 text-center'>100</span>
               </AuthWrapper>
-              <AuthWrapper className='flex items-center justify-center p-4'>
-                <i className='iconfont icon-sound-filling-fill text-lg text-center text-gray-400'></i>
-                <span className='ml-1 text-xs text-gray-400'>45</span>
+              <AuthWrapper className='flex items-center py-4'>
+                <Icon url={v.collected ? iconCollectActive : iconCollect} size={18} />
+                <span className='w-6 ml-1 text-xs text-gray-500 text-center'>45</span>
               </AuthWrapper>
-              <AuthWrapper className='flex items-center justify-end p-4'>
-                <i className='iconfont icon-quick text-lg text-center text-gray-400'></i>
-                <span className='ml-1 text-xs text-gray-400'>10K+</span>
+              <AuthWrapper className='flex items-center py-4'>
+                <Icon url={v.shared ? iconShareActive : iconShare} size={18} />
+                <span className='w-6 ml-1 text-xs text-gray-500 text-center'>1</span>
               </AuthWrapper>
             </section>
           </article>

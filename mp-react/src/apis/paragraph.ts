@@ -5,7 +5,11 @@ export interface Paragraph {
   content: string
   cover: string
   resource: { name: string; author: { name: string }; category: { name: string } }
+  description?: string
   tags: Array<{ _id: string; name: string }>
+  liked?: boolean
+  collected?: boolean
+  shared?: boolean
 }
 
 export type ListFetchQuery = {
@@ -23,4 +27,12 @@ export async function apiGetParagraphs(params?: ListFetchQuery) {
 
 export async function apiGetParagraphById(id: string) {
   return await http.get<Paragraph>(`/paragraph/detail/${id}`)
+}
+
+export async function apiLikeParagraph(id: string) {
+  return await http.post(`/paragraph/like/${id}`)
+}
+
+export async function apiCollectParagraph(id: string) {
+  return await http.post(`/paragraph/collect/${id}`)
 }

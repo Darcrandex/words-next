@@ -20,7 +20,7 @@ const Icon: React.FC<IconProps> = props => {
         src={props.url}
         mode='aspectFill'
         className={props.className}
-        style={{ width: props.size, height: props.size, ...props.style }}
+        style={{ width: props.size || 24, height: props.size || 24, ...props.style }}
       />
     </>
   )
