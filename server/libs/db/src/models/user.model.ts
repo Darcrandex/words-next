@@ -1,11 +1,12 @@
 import { Prop } from '@typegoose/typegoose'
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 export enum Roles {
   Admin = 'admin',
   Account = 'account',
 }
 
-export class User {
+export class User extends TimeStamps {
   // 数据库必须字段
   @Prop({ required: true })
   role!: Roles

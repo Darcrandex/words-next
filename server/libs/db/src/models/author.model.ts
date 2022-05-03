@@ -1,6 +1,7 @@
 import { Prop } from '@typegoose/typegoose'
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
-export class Author {
+export class Author extends TimeStamps {
   @Prop()
   name: string
 

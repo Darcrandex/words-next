@@ -5,6 +5,7 @@ import { apiUserLogin, apiUserSignUp, UserModel } from '@/apis/user'
 const stateAtom = atom<UserModel>({
   key: 'user',
   default: {
+    _id: undefined,
     openid: undefined,
     avatarUrl: '',
     city: '',

@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 
 // 数据库把 openid 绑定到了用户
 export interface UserModel extends Taro.UserInfo {
+  _id?: string
   openid?: string
 }
 

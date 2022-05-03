@@ -1,6 +1,8 @@
 import { Prop } from '@typegoose/typegoose'
 
-export class Category {
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+
+export class Category extends TimeStamps {
   @Prop()
   name: string
 

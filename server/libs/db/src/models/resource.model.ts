@@ -1,8 +1,10 @@
 import { Prop, Ref } from '@typegoose/typegoose'
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+
 import { Author } from './author.model'
 import { Category } from './category.model'
 
-export class Resource {
+export class Resource extends TimeStamps {
   @Prop()
   name: string
 

@@ -10,6 +10,7 @@ import { ScrollView, Image, SwiperItem, Swiper, ScrollViewProps, BaseEventOrig }
 import { useMount } from 'ahooks'
 
 import AuthWrapper from '@/containers/AuthWrapper'
+import Icon from '@/components/Icon'
 import BottomTabNavs, { BAR_HEIGHT, BAR_RADIUS } from '@/containers/BottomTabNavs'
 import SectionTitle from '@/components/SectionTitle'
 import ScreenLoading from '@/components/ScreenLoading'
@@ -26,7 +27,6 @@ import iconCollect from '@/assets/icons/icon-collect.svg'
 import iconCollectActive from '@/assets/icons/icon-collect-active.svg'
 import iconShare from '@/assets/icons/icon-share.svg'
 import iconShareActive from '@/assets/icons/icon-share-active.svg'
-import Icon from '@/components/Icon'
 
 export const HEADER_BOTTOM = 8
 

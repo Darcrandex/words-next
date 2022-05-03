@@ -1,5 +1,8 @@
 > 先通过 `docker-compose.yml` 启动数据库
 
+> 环境要求
+> node@14+
+
 ```bash
 docker-compose up -d
 ```

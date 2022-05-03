@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { DbModule } from '@app/db'
+import { RsaModule } from '@app/rsa'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -13,7 +14,7 @@ import { ResourceModule } from './resource/resource.module'
 import { FileModule } from './file/file.module'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
-import { RsaModule } from '@app/rsa'
+import { CommentModule } from './comment/comment.module'
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { RsaModule } from '@app/rsa'
     FileModule,
     UserModule,
     AuthModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
