@@ -4,7 +4,7 @@
  * @author darcrand
  */
 
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useAsyncEffect, useMount } from 'ahooks'
 import dayjs from 'dayjs'
 
@@ -16,11 +16,13 @@ const Replies: React.FC<{ paragraphId: string; commentId: string }> = props => {
   const [list, setList] = useState<CommentModel[]>([])
   const [total, setTotal] = useState(0)
   useMount(async () => {
-    const res = await apiGetComments(props)
+    // 初始化时，只获取 3 条记录
+    const res = await apiGetComments({ ...props, size: 3 })
     setList(res.list)
     setTotal(res.total)
   })
 
+  // 回复后刷新
   useAsyncEffect(async () => {
     if (
       commentState.updateEvent &&
@@ -32,6 +34,14 @@ const Replies: React.FC<{ paragraphId: string; commentId: string }> = props => {
       setTotal(res.total)
     }
   }, [commentState.updateEvent])
+
+  // 为了方便处理，直接获取剩余的所有回复
+  // 估计不会超过 1000
+  const getAllReplys = useCallback(async () => {
+    const res = await apiGetComments({ ...props, size: 1000 })
+    setList(res.list)
+    setTotal(res.total)
+  }, [props])
 
   return (
     <>
@@ -58,7 +68,6 @@ const Replies: React.FC<{ paragraphId: string; commentId: string }> = props => {
 
                 <p className='flex text-gray-400 text-xs'>
                   <span className='mr-2'>{dayjs(v.createdAt).fromNow()}</span>
-                  <span className='mr-2'>333</span>
                   <span
                     className='mr-2'
                     onClick={() => replyToUser(props.commentId, v.from._id || '', v.from.nickName)}
@@ -70,6 +79,12 @@ const Replies: React.FC<{ paragraphId: string; commentId: string }> = props => {
             </div>
           ))}
         </section>
+      )}
+
+      {list.length < total && (
+        <p className='mt-4 text-sm text-theme opacity-80' onClick={getAllReplys}>
+          点击查看全部回复
+        </p>
       )}
     </>
   )

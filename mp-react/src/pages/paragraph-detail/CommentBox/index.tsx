@@ -15,7 +15,9 @@ const contentStyle = { height: CONTENT_HEIGHT, lineHeight: `${CONTENT_HEIGHT}px`
 
 const CommentBox: React.FC<{ paragraphId: string }> = props => {
   const { safeArea } = useSafeArea()
-  const { commentState, placeholder, commentToParagraph, updateContent, sendComment } = useComment(props.paragraphId)
+  const { commentState, placeholder, setFocusState, commentToParagraph, updateContent, sendComment } = useComment(
+    props.paragraphId
+  )
 
   return (
     <>
@@ -30,6 +32,9 @@ const CommentBox: React.FC<{ paragraphId: string }> = props => {
           placeholder={placeholder}
           style={contentStyle}
           value={commentState.content}
+          focus={commentState.focusState}
+          onFocus={() => setFocusState(true)}
+          onBlur={() => setFocusState(false)}
           onInput={event => updateContent(event.detail.value)}
           onConfirm={sendComment}
         />

@@ -1,3 +1,6 @@
+/**
+ * @description 句子详情页面，回复框部分的逻辑
+ */
 import { useMemo } from 'react'
 import { atomFamily, useRecoilState } from 'recoil'
 import { apiComment } from '@/apis/comment'
@@ -9,7 +12,14 @@ interface UpdateEvent {
 }
 
 const fnCommentAtom = atomFamily<
-  { commentId?: string; to?: string; targetName?: string; content: string; updateEvent?: UpdateEvent },
+  {
+    commentId?: string
+    to?: string
+    targetName?: string
+    content: string
+    focusState: boolean
+    updateEvent?: UpdateEvent
+  },
   string
 >({
   key: 'comment',
@@ -17,7 +27,9 @@ const fnCommentAtom = atomFamily<
     commentId: undefined,
     to: undefined,
     targetName: undefined,
-    content: ''
+    content: '',
+    // 用于交互逻辑，当点击 回复 按钮时，让输入框聚焦
+    focusState: false
   }
 })
 
@@ -29,16 +41,25 @@ export function useComment(paragraphId: string) {
     state.targetName
   ])
 
+  const setFocusState = (focusState: boolean) => setState(curr => ({ ...curr, focusState }))
+
   const commentToParagraph = () => {
-    setState(curr => ({ ...curr, commentId: undefined, to: undefined, targetName: undefined, content: '' }))
+    setState(curr => ({
+      ...curr,
+      focusState: true,
+      commentId: undefined,
+      to: undefined,
+      targetName: undefined,
+      content: ''
+    }))
   }
 
   const replyToComment = (commentId: string, targetName: string) => {
-    setState(curr => ({ ...curr, commentId, to: undefined, targetName, content: '' }))
+    setState(curr => ({ ...curr, focusState: true, commentId, to: undefined, targetName, content: '' }))
   }
 
   const replyToUser = (commentId: string, to: string, targetName: string) => {
-    setState(curr => ({ ...curr, commentId, to, targetName, content: '' }))
+    setState(curr => ({ ...curr, focusState: true, commentId, to, targetName, content: '' }))
   }
 
   const updateContent = (content: string) => {
@@ -60,6 +81,7 @@ export function useComment(paragraphId: string) {
       to: undefined,
       targetName: undefined,
       content: '',
+      focusState: false,
 
       // 成功后，通知组件更新
       // 虽然这种方式很奇葩
@@ -73,6 +95,7 @@ export function useComment(paragraphId: string) {
   return {
     commentState: { ...state, paragraphId },
     placeholder,
+    setFocusState,
     commentToParagraph,
     replyToComment,
     replyToUser,

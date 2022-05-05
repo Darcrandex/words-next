@@ -9,7 +9,7 @@ export interface CommentModel {
   createdAt?: string
 }
 
-export function apiGetComments(params: { paragraphId: string; commentId?: string }) {
+export function apiGetComments(params: { paragraphId: string; commentId?: string; page?: number; size?: number }) {
   return http.get<{ list: CommentModel[]; total: number }>('/comment/list', params)
 }
 

@@ -4,6 +4,7 @@
  * @author darcrand
  */
 
+import Taro from '@tarojs/taro'
 import React, { useState, useMemo, useCallback } from 'react'
 import { useMount } from 'ahooks'
 import { ScrollView } from '@tarojs/components'
@@ -11,6 +12,7 @@ import { ScrollView } from '@tarojs/components'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { useSafeArea } from '@/stores/use-safe-area'
 import ScreenLoading from '@/components/ScreenLoading'
+import TopHeader, { HEADER_BOTTOM } from '@/components/TopHeader'
 
 const Collection: React.FC = () => {
   const { safeArea } = useSafeArea()
@@ -70,22 +72,32 @@ const Collection: React.FC = () => {
     ]
   }, [list])
 
+  const scrollHeight = safeArea.screenHeight - safeArea.menuBtnRect.top - safeArea.menuBtnRect.height - HEADER_BOTTOM
+
   return (
     <>
+      <TopHeader>我的收藏</TopHeader>
+
       <ScrollView
         scrollY
         scrollWithAnimation
-        className='h-screen'
         refresherEnabled
+        style={{ height: scrollHeight }}
         refresherTriggered={loading}
         onRefresherRefresh={onRefresherRefresh}
         onScrollToLower={onScrollToLower}
       >
-        <section className='flex mx-2'>
+        <section className='flex mx-2 pt-4'>
           {groups.map(group => (
-            <div key={group.key} style={{ width: '50%' }}>
+            <div key={group.key} className='w-1_2'>
               {group.list.map(v => (
-                <article key={v._id}>
+                <article
+                  key={v._id}
+                  onClick={e => {
+                    e.stopPropagation()
+                    Taro.navigateTo({ url: `/pages/paragraph-detail/index?id=${v._id}` })
+                  }}
+                >
                   <section className='rounded overflow-hidden mx-2 mb-4 shadow-m'>
                     <div
                       className='bg-center bg-cover bg-blue-50'

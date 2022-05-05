@@ -17,6 +17,7 @@ import Divider from '@/components/Divider'
 import Tag from '@/components/Tag'
 import SectionTitle from '@/components/SectionTitle'
 import ScreenLoading from '@/components/ScreenLoading'
+import TopHeader, { HEADER_BOTTOM } from '@/components/TopHeader'
 
 import iconLike from '@/assets/icons/icon-like.svg'
 import iconLikeActive from '@/assets/icons/icon-like-active.svg'
@@ -25,10 +26,8 @@ import iconCollectActive from '@/assets/icons/icon-collect-active.svg'
 import iconShare from '@/assets/icons/icon-share.svg'
 import iconShareActive from '@/assets/icons/icon-share-active.svg'
 
-import Comments from './Comments'
+import Comments, { useCommentEffect } from './Comments'
 import CommentBox, { PADDING_TOP, CONTENT_HEIGHT } from './CommentBox'
-
-const HEADER_BOTTOM = 5
 
 const ParagraphDetail: React.FC = () => {
   const id = useMemo(() => Taro.getCurrentInstance().router?.params.id ?? '', [])
@@ -60,22 +59,23 @@ const ParagraphDetail: React.FC = () => {
     [safeArea.menuBtnRect.height, safeArea.menuBtnRect.top, safeArea.safeAreaBottom, safeArea.screenHeight]
   )
 
+  const { list, total, refreshing, loading, onRefresherRefresh, onScrollToLower } = useCommentEffect({
+    paragraphId: id
+  })
+
   return (
     <>
-      <header
-        className='pl-4 text-gray-800 shadow-s'
-        style={{
-          height: safeArea.menuBtnRect.height,
-          paddingTop: safeArea.menuBtnRect.top,
-          paddingBottom: HEADER_BOTTOM,
-          lineHeight: `${safeArea.menuBtnRect.height}px`
-        }}
-        onClick={() => Taro.navigateBack()}
-      >
-        返回
-      </header>
+      <TopHeader />
 
-      <ScrollView scrollY scrollWithAnimation style={{ height: scrollHeight }}>
+      <ScrollView
+        scrollY
+        scrollWithAnimation
+        style={{ height: scrollHeight }}
+        refresherEnabled
+        refresherTriggered={refreshing}
+        onRefresherRefresh={onRefresherRefresh}
+        onScrollToLower={onScrollToLower}
+      >
         <Image
           className='w-full bg-gray-100'
           mode='aspectFill'
@@ -124,14 +124,14 @@ const ParagraphDetail: React.FC = () => {
         </section>
 
         <SectionTitle>议论纷纷</SectionTitle>
-        <Comments paragraphId={id} />
+        <Comments paragraphId={id} list={list} total={total} />
 
         <div style={{ height: PADDING_TOP }}></div>
       </ScrollView>
 
       <CommentBox paragraphId={id} />
 
-      <ScreenLoading loading={!data} />
+      <ScreenLoading loading={!data || refreshing || loading} />
     </>
   )
 }
