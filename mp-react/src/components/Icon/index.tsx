@@ -4,13 +4,14 @@
  * @author darcrand
  */
 
-import { Image } from '@tarojs/components'
+import { Image, ITouchEvent } from '@tarojs/components'
 
 interface IconProps {
   url: string
   size?: number
   className?: string
   style?: React.CSSProperties
+  onClick?: (event: ITouchEvent) => void
 }
 
 const Icon: React.FC<IconProps> = props => {
@@ -21,6 +22,7 @@ const Icon: React.FC<IconProps> = props => {
         mode='aspectFill'
         className={props.className}
         style={{ width: props.size || 24, height: props.size || 24, ...props.style }}
+        onClick={props.onClick}
       />
     </>
   )

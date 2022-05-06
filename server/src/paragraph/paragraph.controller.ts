@@ -66,13 +66,13 @@ export class ParagraphController {
           },
         ),
       )
-      .populate({
-        path: 'resource',
-        populate: [{ path: 'author' }, { path: 'category' }],
-      })
-      .populate('tags')
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
+      .populate({
+        path: 'resource',
+        populate: ['author', 'category'],
+      })
+      .populate('tags')
       .exec()
     const total = await this.paragraphModel.count()
     return { list, total }

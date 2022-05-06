@@ -13,7 +13,11 @@ import iconBack from '@/assets/icons/icon-back.svg'
 export const HEADER_BOTTOM = 5
 const iconSize = 20
 
-const TopHeader: React.FC = props => {
+export interface TopHeaderProps {
+  showLeft?: boolean
+}
+
+const TopHeader: React.FC<TopHeaderProps> = ({ showLeft = true, children }) => {
   const { safeArea } = useSafeArea()
 
   return (
@@ -24,12 +28,16 @@ const TopHeader: React.FC = props => {
           paddingTop: safeArea.menuBtnRect.top,
           paddingBottom: HEADER_BOTTOM
         }}
-        onClick={() => Taro.navigateBack()}
       >
         <div className='flex items-center justify-between' style={{ height: safeArea.menuBtnRect.height }}>
-          <Icon url={iconBack} size={iconSize} />
+          {showLeft ? (
+            <Icon url={iconBack} size={iconSize} onClick={() => Taro.navigateBack()} />
+          ) : (
+            <i style={{ width: iconSize }}></i>
+          )}
 
-          <span className='text-sm text-gray-800'>{props.children}</span>
+          {/* children 作为标题文本 */}
+          <span className='text-sm text-gray-800'>{children}</span>
 
           <i style={{ width: iconSize }}></i>
         </div>
