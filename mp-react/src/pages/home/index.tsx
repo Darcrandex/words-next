@@ -147,10 +147,7 @@ const Home: React.FC = () => {
 
         <section className='grid grid-cols-4 m-4 mb-6'>
           {categories.map(v => (
-            <div
-              key={v._id}
-              onClick={() => Taro.navigateTo({ url: `/pages/paragraph-center/index?category=${v._id}` })}
-            >
+            <div key={v._id}>
               <div className='mx-4'>
                 <div
                   className='rounded-full bg-blue-50 bg-cover bg-center shadow-m'
@@ -170,7 +167,7 @@ const Home: React.FC = () => {
             className='m-4 mb-8 rounded-lg overflow-hidden shadow-m bg-white'
             onClick={e => {
               e.stopPropagation()
-              Taro.navigateTo({ url: `/pages/paragraph-detail/index?id=${v._id}` })
+              Taro.navigateTo({ url: `/pages/paragraph/index?id=${v._id}` })
             }}
           >
             <Image src={v.cover} mode='aspectFill' className='w-full h-40 bg-center bg-cover bg-blue-50' />

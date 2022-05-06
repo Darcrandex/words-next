@@ -23,3 +23,5 @@ export function sleep(ms = 1000) {
     }, ms)
   })
 }
+
+export function navigateToPage(pageName: string, params?: Record<string, string | number>) {}

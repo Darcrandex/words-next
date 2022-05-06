@@ -2,8 +2,8 @@ import { Prop } from '@typegoose/typegoose'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 export enum Roles {
-  Admin = 'admin',
-  Account = 'account',
+  Admin = 'admin', // 后台管理员
+  Account = 'account', // 微信用户
 }
 
 export class User extends TimeStamps {
@@ -11,8 +11,9 @@ export class User extends TimeStamps {
   @Prop({ required: true })
   role!: Roles
 
-  @Prop({ required: true })
-  openid!: string
+  // 微信用户才有 opendId
+  @Prop({ required: false })
+  openid?: string
 
   // 自定义字段
   // 个人空间背景

@@ -95,7 +95,7 @@ const Collection: React.FC = () => {
                   key={v._id}
                   onClick={e => {
                     e.stopPropagation()
-                    Taro.navigateTo({ url: `/pages/paragraph-detail/index?id=${v._id}` })
+                    Taro.navigateTo({ url: `/pages/paragraph/index?id=${v._id}` })
                   }}
                 >
                   <section className='rounded overflow-hidden mx-2 mb-4 shadow-m'>

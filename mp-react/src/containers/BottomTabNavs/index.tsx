@@ -23,12 +23,12 @@ const list = [
     iconPath: icoHome,
     selectedIconPath: icoHomeActive
   },
-  // {
-  //   pagePath: 'pages/category/index',
-  //   text: '',
-  //   iconPath: icoHome,
-  //   selectedIconPath: icoHomeActive
-  // },
+  {
+    pagePath: 'pages/market/index',
+    text: '',
+    iconPath: icoHome,
+    selectedIconPath: icoHomeActive
+  },
   {
     pagePath: 'pages/mine/index',
     text: '',

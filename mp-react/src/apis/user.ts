@@ -10,7 +10,7 @@ export interface UserModel extends Taro.UserInfo {
 export async function apiUserLogin(code: string) {
   // 如果登录失败，只返回 openid
   // 如果成功，返回 user，token
-  return http.post<{ user: UserModel; openid: string; token?: string }>('/user/login', { code })
+  return http.post<{ user?: UserModel; openid?: string; token?: string }>('/user/login', { code })
 }
 
 export async function apiUserSignUp(user: UserModel) {

@@ -1,11 +1,17 @@
 export default defineAppConfig({
   pages: [
+    // tabs
     'pages/home/index',
-    'pages/category/index',
+    'pages/market/index',
     'pages/mine/index',
-    'pages/paragraph-center/index',
-    'pages/paragraph-detail/index',
 
+    // 递进的详情页面
+    'pages/author/index',
+    'pages/resource/index',
+    'pages/tag/index',
+    'pages/paragraph/index',
+
+    // 从 我的 tab进入的页面
     'pages/about/index',
     'pages/collection/index',
     'pages/medal/index',
@@ -31,7 +37,7 @@ export default defineAppConfig({
         text: ''
       },
       {
-        pagePath: 'pages/category/index',
+        pagePath: 'pages/market/index',
         text: ''
       },
       {
