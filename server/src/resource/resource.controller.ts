@@ -38,18 +38,19 @@ export class ResourceController {
   }
 
   @Get('/list')
-  async findAll(@Query() query: { page?: string; pageSize?: string }) {
-    const pageSize = parseInt(query?.pageSize) || 10
-    const pageNumber = parseInt(query.page ?? '1')
+  async findAll(@Query() query: Resource & { page?: string; size?: string }) {
+    const { page, size, ...rest } = query
+    const pageSize = parseInt(size ?? '10')
+    const pageNumber = parseInt(page ?? '1')
 
     const list = await this.resourceModel
-      .find()
+      .find(rest)
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .populate('category')
       .populate('author')
       .exec()
-    const total = await this.resourceModel.count()
+    const total = await this.resourceModel.find(rest).count()
     return { list, total }
   }
 

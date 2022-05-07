@@ -52,6 +52,6 @@ export class AuthorController {
   @Get('/detail/:id')
   async findById(@Param('id') id: string) {
     const record = await this.authorModel.findById(id)
-    return { record }
+    return record
   }
 }

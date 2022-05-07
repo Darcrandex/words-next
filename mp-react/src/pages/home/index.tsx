@@ -19,7 +19,7 @@ import { useMarketParams } from '@/stores/use-market-params'
 import { useUser } from '@/stores/use-user'
 import { apiGetBanners, Banner } from '@/apis/common'
 import { apiGetCategories, Category } from '@/apis/category'
-import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
+import { apiGetParagraphs, ParagraphModel } from '@/apis/paragraph'
 import { mergeClassNames, navigateToPage } from '@/utils'
 
 import iconLike from '@/assets/icons/icon-like.svg'
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
   const [banners, setBanners] = useState<Banner[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [query, setQuery] = useState({ page: 1 })
-  const [list, setList] = useState<(Paragraph & { height: number })[]>([])
+  const [list, setList] = useState<(ParagraphModel & { height: number })[]>([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
 

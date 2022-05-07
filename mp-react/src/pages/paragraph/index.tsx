@@ -8,7 +8,7 @@ import Taro from '@tarojs/taro'
 import { Image, ScrollView } from '@tarojs/components'
 import React, { useMemo, useState } from 'react'
 import { useMount, useAsyncEffect } from 'ahooks'
-import { apiGetParagraphById, Paragraph } from '@/apis/paragraph'
+import { apiGetParagraphById, ParagraphModel } from '@/apis/paragraph'
 import { useSafeArea } from '@/stores/use-safe-area'
 
 import AuthWrapper from '@/containers/AuthWrapper'
@@ -32,7 +32,7 @@ import CommentBox, { PADDING_TOP, CONTENT_HEIGHT } from './CommentBox'
 const ParagraphDetail: React.FC = () => {
   const id = useMemo(() => Taro.getCurrentInstance().router?.params.id ?? '', [])
   const { safeArea } = useSafeArea()
-  const [data, setData] = useState<Paragraph>()
+  const [data, setData] = useState<ParagraphModel>()
   const [coverHeight, setCoverHeight] = useState(300)
 
   useMount(async () => {

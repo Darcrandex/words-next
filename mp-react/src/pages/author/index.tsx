@@ -5,19 +5,36 @@
  */
 
 import Taro from '@tarojs/taro'
+import { useState } from 'react'
+import { useMount } from 'ahooks'
+import { apiGetAuthor, AuthorModel } from '@/apis/author'
+import { apiGetResources, ResourceModel } from '@/apis/resource'
+import { navigateToPage } from '@/utils'
 
 const Author: React.FC = () => {
-  const params = Taro.getCurrentInstance().router?.params
+  const authorId = Taro.getCurrentInstance().router?.params.id || ''
 
-  console.log('ppppppp', params)
+  const [author, setAuthor] = useState<AuthorModel>()
+  const [list, setList] = useState<ResourceModel[]>([])
+
+  useMount(async () => {
+    const res = await apiGetAuthor(authorId)
+    setAuthor(res)
+    const resourceRes = await apiGetResources({ author: authorId })
+    setList(resourceRes.list)
+  })
 
   return (
     <>
-      <h1>Author</h1>
+      <h1>Author :{author?.name}</h1>
 
       <p>作品列表</p>
       <ul>
-        <li onClick={() => Taro.navigateTo({ url: '/pages/resource/index?id=001' })}>作品 001</li>
+        {list.map(v => (
+          <li key={v._id} onClick={() => navigateToPage('resource', { id: v._id })}>
+            {v.name}
+          </li>
+        ))}
       </ul>
     </>
   )

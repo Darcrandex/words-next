@@ -55,7 +55,7 @@ const Market: React.FC = () => {
   return (
     <>
       <section className='flex flex-col' style={{ height }}>
-        <TopHeader showLeft={false}>发现</TopHeader>
+        <TopHeader showLeft={false}>分类</TopHeader>
         <section className='flex-1 flex'>
           <aside className='w-20 h-full shrink-0 bg-pink-100'>
             {tabs.map(v => (

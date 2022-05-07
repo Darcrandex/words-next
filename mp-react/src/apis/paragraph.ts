@@ -1,6 +1,6 @@
 import { http } from '@/utils/http'
 
-export interface Paragraph {
+export interface ParagraphModel {
   _id: string
   content: string
   cover: string
@@ -22,11 +22,11 @@ export type ListFetchQuery = {
 }
 
 export async function apiGetParagraphs(params?: ListFetchQuery) {
-  return await http.get<{ list: Paragraph[]; total: number }>('/paragraph/list', params)
+  return await http.get<{ list: ParagraphModel[]; total: number }>('/paragraph/list', params)
 }
 
 export async function apiGetParagraphById(id: string) {
-  return await http.get<Paragraph>(`/paragraph/detail/${id}`)
+  return await http.get<ParagraphModel>(`/paragraph/detail/${id}`)
 }
 
 export async function apiLikeParagraph(id: string) {

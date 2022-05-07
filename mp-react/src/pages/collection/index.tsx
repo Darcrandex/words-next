@@ -8,7 +8,7 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { useMount } from 'ahooks'
 import { ScrollView } from '@tarojs/components'
 
-import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
+import { apiGetParagraphs, ParagraphModel } from '@/apis/paragraph'
 import { useSafeArea } from '@/stores/use-safe-area'
 import ScreenLoading from '@/components/ScreenLoading'
 import TopHeader, { HEADER_BOTTOM } from '@/components/TopHeader'
@@ -18,7 +18,7 @@ const Collection: React.FC = () => {
   const { safeArea } = useSafeArea()
 
   const [query, setQuery] = useState({ page: 1 })
-  const [list, setList] = useState<(Paragraph & { height: number })[]>([])
+  const [list, setList] = useState<(ParagraphModel & { height: number })[]>([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -50,9 +50,9 @@ const Collection: React.FC = () => {
 
   // 分左右两栏数据
   const groups = useMemo(() => {
-    const leftList: (Paragraph & { height: number })[] = []
+    const leftList: (ParagraphModel & { height: number })[] = []
     let leftListTotalHeight = 0
-    const rightList: (Paragraph & { height: number })[] = []
+    const rightList: (ParagraphModel & { height: number })[] = []
     let rightListTotalHeight = 0
 
     list.forEach(item => {

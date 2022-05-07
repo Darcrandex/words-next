@@ -6,7 +6,7 @@
 
 import { ScrollView } from '@tarojs/components'
 import { mergeClassNames } from '@/utils'
-import { useReady } from '@/hooks/use-ready'
+import { useReadyEffect } from '@/hooks/use-ready'
 import { useCallback } from 'react'
 
 export interface ResourcesProps {
@@ -19,7 +19,7 @@ const Resources: React.FC<ResourcesProps> = ({ show, categoryId }) => {
     console.log('inited ok')
   }, [])
 
-  useReady(onInit, show)
+  useReadyEffect(onInit, show)
 
   return (
     <>
