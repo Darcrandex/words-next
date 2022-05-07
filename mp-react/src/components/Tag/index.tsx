@@ -4,8 +4,7 @@
  * @author darcrand
  */
 
-import Taro from '@tarojs/taro'
-import classNames from 'classnames'
+import { mergeClassNames, navigateToPage } from '@/utils'
 
 interface TagProps {
   link?: string
@@ -20,7 +19,7 @@ const Tag: React.FC<TagProps> = props => {
     if (props.onClick) {
       props.onClick(e)
     } else if (props.link) {
-      Taro.navigateTo({ url: props.link })
+      navigateToPage(props.link)
     }
   }
 
@@ -28,7 +27,7 @@ const Tag: React.FC<TagProps> = props => {
     <>
       <span
         onClick={onClick}
-        className={classNames('inline-block px-2 py-1 text-xs text-gray-600 rounded bg-gray-50', props.className)}
+        className={mergeClassNames('inline-block px-2 py-1 text-xs text-gray-600 rounded bg-gray-50', props.className)}
       >
         {props.children}
       </span>

@@ -4,7 +4,7 @@
  * @author darcrand
  */
 
-import classNames from 'classnames'
+import { mergeClassNames } from '@/utils'
 import './styles.less'
 
 interface DividerProps {
@@ -15,7 +15,7 @@ interface DividerProps {
 const Divider: React.FC<DividerProps> = props => {
   return (
     <>
-      <div className={classNames('divider', props.className)} style={props.style}>
+      <div className={mergeClassNames('divider', props.className)} style={props.style}>
         <i className='line bg-gray-100'></i>
         {!!props.children && <div className='mx-2 text-gray-100 text-sm'>{props.children}</div>}
         <i className='line bg-gray-100'></i>

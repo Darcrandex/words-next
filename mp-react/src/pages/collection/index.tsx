@@ -4,7 +4,6 @@
  * @author darcrand
  */
 
-import Taro from '@tarojs/taro'
 import React, { useState, useMemo, useCallback } from 'react'
 import { useMount } from 'ahooks'
 import { ScrollView } from '@tarojs/components'
@@ -13,6 +12,7 @@ import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
 import { useSafeArea } from '@/stores/use-safe-area'
 import ScreenLoading from '@/components/ScreenLoading'
 import TopHeader, { HEADER_BOTTOM } from '@/components/TopHeader'
+import { navigateToPage } from '@/utils'
 
 const Collection: React.FC = () => {
   const { safeArea } = useSafeArea()
@@ -95,7 +95,7 @@ const Collection: React.FC = () => {
                   key={v._id}
                   onClick={e => {
                     e.stopPropagation()
-                    Taro.navigateTo({ url: `/pages/paragraph/index?id=${v._id}` })
+                    navigateToPage('paragraph', { id: v._id })
                   }}
                 >
                   <section className='rounded overflow-hidden mx-2 mb-4 shadow-m'>

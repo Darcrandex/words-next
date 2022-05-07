@@ -15,11 +15,12 @@ import BottomTabNavs, { BAR_HEIGHT, BAR_RADIUS } from '@/containers/BottomTabNav
 import SectionTitle from '@/components/SectionTitle'
 import ScreenLoading from '@/components/ScreenLoading'
 import { useSafeArea } from '@/stores/use-safe-area'
+import { useMarketParams } from '@/stores/use-market-params'
 import { useUser } from '@/stores/use-user'
 import { apiGetBanners, Banner } from '@/apis/common'
 import { apiGetCategories, Category } from '@/apis/category'
 import { apiGetParagraphs, Paragraph } from '@/apis/paragraph'
-import { mergeClassNames } from '@/utils'
+import { mergeClassNames, navigateToPage } from '@/utils'
 
 import iconLike from '@/assets/icons/icon-like.svg'
 import iconLikeActive from '@/assets/icons/icon-like-active.svg'
@@ -103,6 +104,12 @@ const Home: React.FC = () => {
     }
   }, [list.length, total, query])
 
+  const { setParams } = useMarketParams()
+  const onCatetoyClick = (id: string) => {
+    setParams({ categoryId: id })
+    Taro.switchTab({ url: '/pages/market/index' })
+  }
+
   return (
     <>
       <header
@@ -147,7 +154,7 @@ const Home: React.FC = () => {
 
         <section className='grid grid-cols-4 m-4 mb-6'>
           {categories.map(v => (
-            <div key={v._id}>
+            <div key={v._id} onClick={() => onCatetoyClick(v._id)}>
               <div className='mx-4'>
                 <div
                   className='rounded-full bg-blue-50 bg-cover bg-center shadow-m'
@@ -167,7 +174,7 @@ const Home: React.FC = () => {
             className='m-4 mb-8 rounded-lg overflow-hidden shadow-m bg-white'
             onClick={e => {
               e.stopPropagation()
-              Taro.navigateTo({ url: `/pages/paragraph/index?id=${v._id}` })
+              navigateToPage('paragraph', { id: v._id })
             }}
           >
             <Image src={v.cover} mode='aspectFill' className='w-full h-40 bg-center bg-cover bg-blue-50' />

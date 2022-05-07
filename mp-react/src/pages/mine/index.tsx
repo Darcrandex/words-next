@@ -4,11 +4,11 @@
  * @author darcrand
  */
 
-import Taro from '@tarojs/taro'
 import { Image } from '@tarojs/components'
 import BottomTabNavs from '@/containers/BottomTabNavs'
 import Icon from '@/components/Icon'
 import { useUser } from '@/stores/use-user'
+import { navigateToPage } from '@/utils'
 
 import AuthWrapper from '@/containers/AuthWrapper'
 import iconMedal from '@/assets/icons/icon-medal.svg'
@@ -56,7 +56,7 @@ const Mine: React.FC = () => {
       </section>
 
       <section className='m-4 p-2 rounded-lg shadow-m bg-white'>
-        <AuthWrapper onClick={() => Taro.navigateTo({ url: '/pages/collection/index' })}>
+        <AuthWrapper onClick={() => navigateToPage('collection')}>
           <div className='flex items-center mx-2 py-2 link-item'>
             <Icon url={iconCollection} size={24} />
             <span className='ml-2 mr-auto text-gray-800 text-sm'>我的收藏</span>
@@ -64,7 +64,7 @@ const Mine: React.FC = () => {
           </div>
         </AuthWrapper>
 
-        <AuthWrapper onClick={() => Taro.navigateTo({ url: '/pages/about/index' })}>
+        <AuthWrapper onClick={() => navigateToPage('about')}>
           <div className='flex items-center mx-2 py-2 link-item'>
             <Icon url={iconAbout} size={24} />
             <span className='ml-2 mr-auto text-gray-800 text-sm'>关于</span>
@@ -72,7 +72,7 @@ const Mine: React.FC = () => {
           </div>
         </AuthWrapper>
 
-        <AuthWrapper onClick={() => Taro.navigateTo({ url: '/pages/settings/index' })}>
+        <AuthWrapper onClick={() => navigateToPage('settings')}>
           <div className='flex items-center mx-2 py-2'>
             <Icon url={iconSetting} size={24} />
             <span className='ml-2 mr-auto text-gray-800 text-sm'>设置</span>

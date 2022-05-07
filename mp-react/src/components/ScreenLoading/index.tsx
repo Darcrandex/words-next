@@ -4,7 +4,7 @@
  * @author darcrand
  */
 
-import classNames from 'classnames'
+import { mergeClassNames } from '@/utils'
 import './styles.less'
 
 interface ScreenLoadingProps {
@@ -16,7 +16,7 @@ const ScreenLoading: React.FC<ScreenLoadingProps> = props => {
   return (
     <>
       <section
-        className={classNames('cover-container', props.loading ? 'show' : 'hide')}
+        className={mergeClassNames('cover-container', props.loading ? 'show' : 'hide')}
         style={{ zIndex: props.zIndex || 10 }}
       >
         <i className='loading-ico'></i>

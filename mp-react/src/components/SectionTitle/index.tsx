@@ -5,11 +5,11 @@
  */
 
 import React from 'react'
-import classNames from 'classnames'
+import { mergeClassNames } from '@/utils'
 
 const SectionTitle: React.FC<React.HTMLAttributes<HTMLElement>> = ({ children, className, ...props }) => {
   return (
-    <h3 className={classNames('flex items-center m-4', className)} {...props}>
+    <h3 className={mergeClassNames('flex items-center m-4', className)} {...props}>
       <i className='w-1 h-4 bg-theme mr-2 rounded-tr rounded-bl'></i>
       <span className='text-gray-800'>{children}</span>
     </h3>

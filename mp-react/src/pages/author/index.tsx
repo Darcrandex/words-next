@@ -7,6 +7,10 @@
 import Taro from '@tarojs/taro'
 
 const Author: React.FC = () => {
+  const params = Taro.getCurrentInstance().router?.params
+
+  console.log('ppppppp', params)
+
   return (
     <>
       <h1>Author</h1>
