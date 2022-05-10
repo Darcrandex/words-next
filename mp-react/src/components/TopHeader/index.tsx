@@ -9,21 +9,23 @@ import { useSafeArea } from '@/stores/use-safe-area'
 import Icon from '@/components/Icon'
 
 import iconBack from '@/assets/icons/icon-back.svg'
+import { mergeClassNames } from '@/utils'
 
 export const HEADER_BOTTOM = 5
-const iconSize = 20
+const iconSize = 18
 
 export interface TopHeaderProps {
   showLeft?: boolean
+  className?: string
 }
 
-const TopHeader: React.FC<TopHeaderProps> = ({ showLeft = true, children }) => {
+const TopHeader: React.FC<TopHeaderProps> = ({ showLeft = true, className, children }) => {
   const { safeArea } = useSafeArea()
 
   return (
     <>
       <header
-        className='px-4 text-gray-800 shadow-s'
+        className={mergeClassNames('px-4 text-gray-800', className)}
         style={{
           paddingTop: safeArea.menuBtnRect.top,
           paddingBottom: HEADER_BOTTOM
@@ -37,7 +39,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({ showLeft = true, children }) => {
           )}
 
           {/* children 作为标题文本 */}
-          <span className='text-sm text-gray-800'>{children}</span>
+          <span className='text-sm text-gray-800 font-bold'>{children}</span>
 
           <i style={{ width: iconSize }}></i>
         </div>
