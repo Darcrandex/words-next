@@ -14,6 +14,8 @@ import Icon from '@/components/Icon'
 import BottomTabNavs, { BAR_HEIGHT, BAR_RADIUS } from '@/containers/BottomTabNavs'
 import SectionTitle from '@/components/SectionTitle'
 import ScreenLoading from '@/components/ScreenLoading'
+import TopSearch, { useSearchBaSize } from '@/components/TopSearch'
+
 import { useSafeArea } from '@/stores/use-safe-area'
 import { useMarketParams } from '@/stores/use-market-params'
 import { useUser } from '@/stores/use-user'
@@ -29,8 +31,6 @@ import iconCollectActive from '@/assets/icons/icon-collect-active.svg'
 import iconShare from '@/assets/icons/icon-share.svg'
 import iconShareActive from '@/assets/icons/icon-share-active.svg'
 
-export const HEADER_BOTTOM = 8
-
 const Home: React.FC = () => {
   // 自动登录
   const { loginOnLaunch } = useUser()
@@ -38,14 +38,14 @@ const Home: React.FC = () => {
 
   // 布局相关
   const { safeArea } = useSafeArea()
-  const headerTop = useMemo(() => safeArea.menuBtnRect.top + safeArea.menuBtnRect.height ?? 44, [safeArea])
+  const { height: searchBarHeight } = useSearchBaSize()
   const scrollHeight = useMemo(
-    () => safeArea.screenHeight - headerTop - BAR_HEIGHT - HEADER_BOTTOM - safeArea.safeAreaBottom + BAR_RADIUS,
-    [headerTop, safeArea.safeAreaBottom, safeArea.screenHeight]
+    () => safeArea.screenHeight - searchBarHeight - BAR_HEIGHT - safeArea.safeAreaBottom + BAR_RADIUS,
+    [safeArea.safeAreaBottom, safeArea.screenHeight, searchBarHeight]
   )
 
   const [pageScrollTop, setScrollTop] = useState(0)
-  const shouldFixed = useMemo(() => pageScrollTop > 2 * headerTop, [headerTop, pageScrollTop])
+  const shouldFixed = useMemo(() => pageScrollTop > 2 * searchBarHeight, [searchBarHeight, pageScrollTop])
   const onScroll = useCallback(
     (event: BaseEventOrig<ScrollViewProps.onScrollDetail>) => setScrollTop(event.detail.scrollTop),
     []
@@ -112,18 +112,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <header
-        className={mergeClassNames(
-          'fixed top-0 left-0 right-0 z-10 flex items-end bg-white transition',
-          shouldFixed && 'shadow-m'
-        )}
-        style={{ height: headerTop, paddingBottom: HEADER_BOTTOM }}
-      >
-        <div style={{ width: safeArea.menuBtnRect.left, height: safeArea.menuBtnRect.height }}>
-          <p className='bg-gray-100 mx-4 px-4 py-2 rounded-full text-xs text-gray-400 box-border'>但愿人长久</p>
-        </div>
-      </header>
-      <div style={{ height: headerTop + HEADER_BOTTOM }} />
+      <TopSearch className={mergeClassNames(shouldFixed && 'shadow-m')}>但愿人长久</TopSearch>
 
       <ScrollView
         scrollY

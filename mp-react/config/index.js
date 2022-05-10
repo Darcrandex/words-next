@@ -21,7 +21,16 @@ const config = {
     // 允许使用 html 标签
     '@tarojs/plugin-html',
     // 使用 tailwind 插件
-    'taro-plugin-tailwind'
+    'taro-plugin-tailwind',
+    // 全局 less 变量/mixins
+    [
+      'taro-plugin-style-resource',
+      {
+        less: {
+          patterns: [path.resolve(__dirname, '..', 'src/styles/variables.less')]
+        }
+      }
+    ]
   ],
 
   defineConstants: {},
