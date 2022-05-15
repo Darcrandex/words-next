@@ -83,5 +83,5 @@ yarn add query-string
 
 1. Image + 本地资源
 2. Image + 网络资源
-3. backgroundImage + 本地资源 失效
+3. ~~backgroundImage + 本地资源 (失效)~~
 4. backgroundImage + 网络资源

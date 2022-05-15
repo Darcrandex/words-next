@@ -4,6 +4,7 @@ export interface ResourceModel {
   _id: string
   name: string
   description: string
+  cover?: string
 }
 
 export async function apiGetResources(params?: { page?: number; size?: number; author?: string; category?: string }) {

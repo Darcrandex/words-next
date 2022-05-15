@@ -4,6 +4,7 @@ export interface AuthorModel {
   _id: string
   name: string
   description: string
+  cover: string
 }
 
 export async function apiGetAuthors(params?: { page?: number; size?: number }) {
