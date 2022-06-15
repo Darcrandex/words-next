@@ -9,6 +9,7 @@ import { useSafeArea } from '@/stores/use-safe-area'
 import Icon from '@/components/Icon'
 
 import iconBack from '@/assets/icons/icon-back.svg'
+import iconBackWhite from '@/assets/icons/icon-back-white.svg'
 import { mergeClassNames } from '@/utils'
 
 export const HEADER_BOTTOM = 5
@@ -17,35 +18,62 @@ const iconSize = 18
 export interface TopHeaderProps {
   showLeft?: boolean
   className?: string
+  theme?: 'white' | 'dark'
+  ghost?: boolean
   fixed?: boolean // 是否固定在顶部
+  fillup?: boolean // 当 fixed 时, 是否自动补全高度
 }
 
-const TopHeader: React.FC<TopHeaderProps> = ({ showLeft = true, className, fixed, children }) => {
+const TopHeader: React.FC<TopHeaderProps> = ({
+  showLeft = true,
+  className,
+  fixed,
+  fillup = true,
+  theme = 'white',
+  ghost,
+  children
+}) => {
   const { safeArea } = useSafeArea()
   const headerHeight = safeArea.menuBtnRect.top + safeArea.menuBtnRect.height + HEADER_BOTTOM
 
   return (
     <>
       <header
-        className={mergeClassNames('px-4 text-gray-800 bg-white', fixed && 'fixed top-0 left-0 right-0', className)}
+        className={mergeClassNames(
+          'text-gray-800',
+          fixed && 'fixed top-0 left-0 right-0 z-10',
+          ghost ? 'bg-transparent' : theme === 'dark' ? 'bg-gray-600' : 'bg-white',
+          className
+        )}
         style={{
           paddingTop: safeArea.menuBtnRect.top,
           paddingBottom: HEADER_BOTTOM
         }}
       >
         <div className='flex items-center justify-between' style={{ height: safeArea.menuBtnRect.height }}>
-          <div style={{ width: 2 * iconSize }} onClick={() => showLeft && Taro.navigateBack()}>
-            {showLeft && <Icon url={iconBack} size={iconSize} />}
+          <div
+            className='flex items-center pl-4 h-full'
+            style={{ width: 2 * iconSize }}
+            onClick={() => showLeft && Taro.navigateBack()}
+          >
+            {showLeft && <Icon url={theme === 'white' ? iconBack : iconBackWhite} size={iconSize} />}
           </div>
 
           {/* children 作为标题文本 */}
-          <span className='text-sm text-gray-800 font-bold'>{children}</span>
+          <span
+            className={mergeClassNames(
+              'text-sm font-bold truncate',
+              theme === 'white' ? 'text-gray-800' : 'text-gray-50'
+            )}
+          >
+            {children}
+          </span>
 
-          <i style={{ width: 2 * iconSize }}></i>
+          <i className='pr-4' style={{ width: 2 * iconSize }}></i>
         </div>
       </header>
 
-      {fixed && <div style={{ height: headerHeight }}></div>}
+      {fixed && fillup && <div style={{ height: headerHeight }}></div>}
     </>
   )
 }

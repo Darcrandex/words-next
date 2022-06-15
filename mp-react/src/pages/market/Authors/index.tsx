@@ -62,9 +62,13 @@ const Authors: React.FC<AuthorsProps> = ({ show }) => {
           >
             <Avatar src={v.cover} className='mx-4 rounded-md transform -translate-y-4 shadow-s' />
 
-            <article>
+            <article className='flex-1 mr-4'>
               <h2 className='text-gray-800 text-sm'>{v.name}</h2>
-              <p className='text-gray-600 text-xs truncate'>{v.description || '还没有任何的描述。。。'}</p>
+              <div className='relative h-6'>
+                <p className='absolute top-0 left-0 w-full text-gray-600 text-xs truncate'>
+                  {v.description || '还没有任何的描述。。。'}
+                </p>
+              </div>
             </article>
           </section>
         ))}

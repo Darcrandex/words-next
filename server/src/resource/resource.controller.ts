@@ -57,6 +57,6 @@ export class ResourceController {
   @Get('/detail/:id')
   async findById(@Param('id') id: string) {
     const record = await this.resourceModel.findById(id)
-    return { record }
+    return record
   }
 }
