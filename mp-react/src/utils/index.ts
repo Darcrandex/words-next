@@ -4,7 +4,7 @@ import queryString from 'query-string'
 export function mergeClassNames(...classNames: (string | boolean | undefined | Record<string, boolean | undefined>)[]) {
   return classNames
     .map(item => {
-      if (typeof item === 'object' && Object.keys(item).length > 0) {
+      if (typeof item === 'object' && item !== null) {
         const res: string[] = []
         for (const key in item) {
           if (item[key]) res.push(key)

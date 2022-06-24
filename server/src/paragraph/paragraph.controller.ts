@@ -52,20 +52,21 @@ export class ParagraphController {
   ) {
     const pageSize = parseInt(query?.pageSize) || 10
     const pageNumber = parseInt(query.page) || 1
-    const list = await this.paragraphModel
-      .find(
-        Object.assign(
-          {},
-          query.resource && { resource: query.resource },
 
-          // 句子关联多个标签，查询出 tags 中包含 tag 的记录
-          query.tag && { tags: { $elemMatch: { $eq: query.tag } } },
-          // 模糊查询
-          query.keywords && {
-            content: { $regex: query.keywords, $options: 'i' },
-          },
-        ),
-      )
+    const queryObj = Object.assign(
+      {},
+      query.resource && { resource: query.resource },
+
+      // 句子关联多个标签，查询出 tags 中包含 tag 的记录
+      query.tag && { tags: { $elemMatch: { $eq: query.tag } } },
+      // 模糊查询
+      query.keywords && {
+        content: { $regex: query.keywords, $options: 'i' },
+      },
+    )
+
+    const list = await this.paragraphModel
+      .find(queryObj)
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .populate({
@@ -74,7 +75,7 @@ export class ParagraphController {
       })
       .populate('tags')
       .exec()
-    const total = await this.paragraphModel.count()
+    const total = await this.paragraphModel.find(queryObj).count()
     return { list, total }
   }
 
