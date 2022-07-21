@@ -11,6 +11,8 @@ export default defineAppConfig({
     'pages/tag/index',
     'pages/paragraph/index',
 
+    'pages/search-result/index',
+
     // 从 我的 tab进入的页面
     'pages/about/index',
     'pages/collection/index',
@@ -18,6 +20,7 @@ export default defineAppConfig({
     'pages/my-words/index',
     'pages/settings/index'
   ],
+
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

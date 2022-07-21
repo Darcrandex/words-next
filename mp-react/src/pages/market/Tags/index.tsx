@@ -63,7 +63,9 @@ const Tags: React.FC<TagsProps> = ({ show }) => {
               <section className='flex flex-row flex-wrap mx-2'>
                 {group.children.map(tag => (
                   <div key={tag._id} style={{ width: '33.33%' }} onClick={() => navigateToPage('tag', { id: tag._id })}>
-                    <span className='block m-2 p-2 text-gray-600 text-center bg-gray-100 rounded-full'>{tag.name}</span>
+                    <span className='block m-2 py-2 text-xs text-gray-600 text-center bg-gray-100 rounded-full'>
+                      {tag.name}
+                    </span>
                   </div>
                 ))}
               </section>

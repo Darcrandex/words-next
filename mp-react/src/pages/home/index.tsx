@@ -112,7 +112,9 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <TopSearch className={mergeClassNames(shouldFixed && 'shadow-m')}>但愿人长久</TopSearch>
+      <TopSearch className={mergeClassNames(shouldFixed && 'shadow-m')} onClick={() => navigateToPage('search-result')}>
+        但愿人长久
+      </TopSearch>
 
       <ScrollView
         scrollY

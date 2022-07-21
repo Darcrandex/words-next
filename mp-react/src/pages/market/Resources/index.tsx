@@ -11,6 +11,7 @@ import { useReadyEffect } from '@/hooks/use-ready'
 import { apiGetResources, ResourceModel } from '@/apis/resource'
 import { ScrollView } from '@tarojs/components'
 import ScreenLoading from '@/components/ScreenLoading'
+import Empty from '@/components/Empty'
 
 export interface ResourcesProps {
   show: boolean
@@ -54,15 +55,22 @@ const Resources: React.FC<ResourcesProps> = ({ show, categoryId }) => {
       >
         <hr style={{ paddingTop: 1 }} />
 
-        {list.map(v => (
-          <section
-            key={v._id}
-            className='flex items-center mx-4 my-8 bg-gray-50 rounded-md shadow-m'
-            onClick={() => navigateToPage('resource', { id: v._id })}
-          >
-            <p>{v.name}</p>
-          </section>
-        ))}
+        <section className='flex flex-wrap mx-2'>
+          {list.map(v => (
+            <div key={v._id} style={{ width: '50%' }} onClick={() => navigateToPage('resource', { id: v._id })}>
+              <i
+                className='block h-32 my-2 mx-auto rounded-lg bg-gray-100 bg-center bg-cover'
+                style={{
+                  width: '80%',
+                  backgroundImage: `url('${v.cover || 'https://img.shuicaimi.com/2020/12/%E5%9B%BE%E7%89%87-5.png'}')`
+                }}
+              ></i>
+              <p className='text-center text-xs text-gray-600'>{v.name}</p>
+            </div>
+          ))}
+
+          {total === 0 && <Empty />}
+        </section>
       </ScrollView>
 
       <ScreenLoading loading={refreshing || loading} />

@@ -51,7 +51,7 @@ const Author: React.FC = () => {
         <React.Fragment key={v._id}>
           <section className='flex m-4' onClick={() => navigateToPage('resource', { id: v._id })}>
             <div
-              className='shrink-0 w-16 h-20 rounded-md shadow-m bg-gray-100 bg-center bg-cover'
+              className='shrink-0 w-16 h-20 rounded-md shadow-m bg-gray-100'
               style={{
                 backgroundImage: `url('${v.cover || 'https://img.shuicaimi.com/2020/12/%E5%9B%BE%E7%89%87-5.png'}')`
               }}
