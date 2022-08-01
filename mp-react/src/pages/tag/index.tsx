@@ -17,6 +17,8 @@ import { apiGetTagById } from '@/apis/tag'
 import TopHeader, { HEADER_BOTTOM } from '@/components/TopHeader'
 import ScreenLoading from '@/components/ScreenLoading'
 
+import './styles.less'
+
 const WithTag: React.FC = () => {
   const tagId = useMemo(() => Taro.getCurrentInstance().router?.params.id ?? '', [])
 
@@ -68,12 +70,25 @@ const WithTag: React.FC = () => {
         <hr style={{ paddingTop: 1 }} />
 
         {list.map(v => (
-          <section
-            key={v._id}
-            className='flex items-center mx-4 my-8 bg-gray-50 rounded-md shadow-m'
-            onClick={() => navigateToPage('paragraph', { id: v._id })}
-          >
-            <p>{v.content}</p>
+          <section key={v._id} onClick={() => navigateToPage('paragraph', { id: v._id })}>
+            <article
+              className='article m-4 p-4 rounded shadow-m'
+              style={{
+                backgroundSize: 'auto, auto 100%',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'top left, top right',
+                backgroundImage: `linear-gradient(120deg, white 0%, white 60%, transparent 100%), url("${v.cover}")`
+              }}
+            >
+              <div className='mb-2 min-h-16 text-gray-600 text-sm' style={{ width: '80%' }}>
+                {v.content.split('\n').map(str => (
+                  <p key={str}>{str}</p>
+                ))}
+              </div>
+              <p className='text-gray-400 text-xs'>
+                {v.resource.author.name}《{v.resource.name || '一个神秘的作品'}》
+              </p>
+            </article>
           </section>
         ))}
       </ScrollView>

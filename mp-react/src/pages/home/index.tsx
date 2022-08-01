@@ -131,7 +131,7 @@ const Home: React.FC = () => {
             <SwiperItem key={v.id}>
               <div className='relative mx-4'>
                 <div
-                  className='relative z-2 h-32 rounded-lg overflow-hidden bg-center bg-cover'
+                  className='relative z-2 h-32 rounded overflow-hidden bg-center bg-cover'
                   style={{ backgroundImage: `url('${v.imageUrl}')` }}
                 />
                 <div
@@ -162,7 +162,7 @@ const Home: React.FC = () => {
         {list.map(v => (
           <article
             key={v._id}
-            className='m-4 mb-8 rounded-lg overflow-hidden shadow-m bg-white'
+            className='m-4 mb-8 rounded overflow-hidden shadow-m bg-white'
             onClick={e => {
               e.stopPropagation()
               navigateToPage('paragraph', { id: v._id })

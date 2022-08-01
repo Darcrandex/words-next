@@ -59,7 +59,7 @@ const Resources: React.FC<ResourcesProps> = ({ show, categoryId }) => {
           {list.map(v => (
             <div key={v._id} style={{ width: '50%' }} onClick={() => navigateToPage('resource', { id: v._id })}>
               <i
-                className='block h-32 my-2 mx-auto rounded-lg bg-gray-100 bg-center bg-cover'
+                className='block h-32 my-2 mx-auto rounded bg-gray-100 bg-center bg-cover'
                 style={{
                   width: '80%',
                   backgroundImage: `url('${v.cover || 'https://img.shuicaimi.com/2020/12/%E5%9B%BE%E7%89%87-5.png'}')`

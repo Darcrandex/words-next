@@ -57,10 +57,10 @@ const Authors: React.FC<AuthorsProps> = ({ show }) => {
         {list.map(v => (
           <section
             key={v._id}
-            className='flex items-center mx-4 my-8 bg-gray-50 rounded-md shadow-m'
+            className='flex items-center mx-4 my-8 bg-gray-50 rounded shadow-m'
             onClick={() => navigateToPage('author', { id: v._id })}
           >
-            <Avatar src={v.cover} className='mx-4 rounded-md transform -translate-y-4 shadow-s' />
+            <Avatar src={v.cover} className='mx-4 rounded transform -translate-y-4 shadow-s' />
 
             <article className='flex-1 mr-4'>
               <h2 className='text-gray-800 text-sm'>{v.name}</h2>

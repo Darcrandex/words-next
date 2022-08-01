@@ -45,17 +45,17 @@ const Mine: React.FC = () => {
       </section>
 
       <section className='flex m-2'>
-        <div className='flex items-center flex-1 m-2 p-4 rounded-lg shadow-m bg-pink-50'>
+        <div className='flex items-center flex-1 m-2 p-4 rounded shadow-m bg-pink-50'>
           <Image mode='aspectFill' src={iconMedal} className='w-10 h-10 mr-2' />
           <span className='text-gray-800'>我的勋章</span>
         </div>
-        <div className='flex items-center flex-1 m-2 p-4 rounded-lg shadow-m bg-teal-50'>
+        <div className='flex items-center flex-1 m-2 p-4 rounded shadow-m bg-teal-50'>
           <Image mode='aspectFill' src={iconIdea} className='w-10 h-10 mr-2' />
           <span className='text-gray-800'>我的片语</span>
         </div>
       </section>
 
-      <section className='m-4 p-2 rounded-lg shadow-m bg-white'>
+      <section className='m-4 p-2 rounded shadow-m bg-white'>
         <AuthWrapper onClick={() => navigateToPage('collection')}>
           <div className='flex items-center mx-2 py-2 link-item'>
             <Icon url={iconCollection} size={24} />
