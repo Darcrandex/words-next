@@ -50,7 +50,7 @@ const Replies: React.FC<{ paragraphId: string; commentId: string }> = props => {
           {list.map(v => (
             <div key={v._id} className='flex flex-start my-2'>
               <i
-                className='w-8 h-8 rounded-full bg-gray-200 bg-center bg-cover shadow-s'
+                className='w-8 h-8 rounded-full bg-gray-200 bg-center bg-cover'
                 style={{ backgroundImage: `url("${v.from.avatarUrl}")` }}
               />
 

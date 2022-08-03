@@ -13,7 +13,7 @@ import iconBackWhite from '@/assets/icons/icon-back-white.svg'
 import { mergeClassNames } from '@/utils'
 
 export const HEADER_BOTTOM = 5
-const iconSize = 18
+export const ICON_SIEZE = 18
 
 export interface TopHeaderProps {
   showLeft?: boolean
@@ -53,10 +53,10 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         <div className='flex items-center justify-between' style={{ height: safeArea.menuBtnRect.height }}>
           <div
             className='flex items-center pl-4 h-full'
-            style={{ width: 2 * iconSize }}
+            style={{ width: 2 * ICON_SIEZE }}
             onClick={() => showLeft && Taro.navigateBack()}
           >
-            {showLeft && <Icon url={theme === 'white' ? iconBack : iconBackWhite} size={iconSize} />}
+            {showLeft && <Icon url={theme === 'white' ? iconBack : iconBackWhite} size={ICON_SIEZE} />}
           </div>
 
           {/* children 作为标题文本 */}
@@ -69,7 +69,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             {children}
           </span>
 
-          <i className='pr-4' style={{ width: 2 * iconSize }}></i>
+          <i className='pr-4' style={{ width: 2 * ICON_SIEZE }}></i>
         </div>
       </header>
 

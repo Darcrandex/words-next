@@ -77,7 +77,7 @@ const ParagraphDetail: React.FC = () => {
         onScrollToLower={onScrollToLower}
       >
         <Image
-          className='w-full bg-gray-100'
+          className='w-full bg-gray-100 transition-all'
           mode='aspectFill'
           src={data?.cover || ''}
           style={{ height: coverHeight }}

@@ -18,7 +18,7 @@ export interface TopSearchProps {
   onClick?: (event: React.MouseEvent) => void
 }
 
-export function useSearchBaSize() {
+export function useSearchBarSize() {
   const { safeArea } = useSafeArea()
   return {
     height: safeArea.menuBtnRect.top + safeArea.menuBtnRect.height + HEADER_BOTTOM

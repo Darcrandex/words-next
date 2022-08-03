@@ -38,8 +38,10 @@ const Mine: React.FC = () => {
         <div className='ml-4'>
           {hadLogined ? (
             <>
-              <span className='text-xl text-gray-800'>{info.nickName}</span>
-              <span className='inline-block px-2 bg-theme text-white text-xs rounded-full rounded-tl-none'>小萌新</span>
+              <span className='text-xl text-gray-800 font-bold'>{info.nickName}</span>
+              <span className='inline-block px-2 py-1 bg-theme text-white text-xs rounded-full rounded-tl-none'>
+                小萌新
+              </span>
             </>
           ) : (
             <span className='text-xl text-gray-800' onClick={signUp}>

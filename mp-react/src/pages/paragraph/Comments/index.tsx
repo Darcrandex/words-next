@@ -70,7 +70,7 @@ const Comments: React.FC<{
         props.list.map(v => (
           <section key={v._id} className='flex flex-start m-4'>
             <i
-              className='w-10 h-10 rounded-full bg-gray-200 bg-center bg-cover shadow-s'
+              className='w-10 h-10 rounded-full bg-gray-200 bg-center bg-cover'
               style={{ backgroundImage: `url("${v.from.avatarUrl}")` }}
             />
 

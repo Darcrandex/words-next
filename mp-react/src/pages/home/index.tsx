@@ -14,7 +14,7 @@ import Icon from '@/components/Icon'
 import BottomTabNavs, { BAR_HEIGHT, BAR_RADIUS } from '@/containers/BottomTabNavs'
 import SectionTitle from '@/components/SectionTitle'
 import ScreenLoading from '@/components/ScreenLoading'
-import TopSearch, { useSearchBaSize } from '@/components/TopSearch'
+import TopSearch, { useSearchBarSize } from '@/components/TopSearch'
 
 import { useSafeArea } from '@/stores/use-safe-area'
 import { useMarketParams } from '@/stores/use-market-params'
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 
   // 布局相关
   const { safeArea } = useSafeArea()
-  const { height: searchBarHeight } = useSearchBaSize()
+  const { height: searchBarHeight } = useSearchBarSize()
   const scrollHeight = useMemo(
     () => safeArea.screenHeight - searchBarHeight - BAR_HEIGHT - safeArea.safeAreaBottom + BAR_RADIUS,
     [safeArea.safeAreaBottom, safeArea.screenHeight, searchBarHeight]
