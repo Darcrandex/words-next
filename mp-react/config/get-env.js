@@ -6,17 +6,16 @@ const path = require('path')
 const dotenv = require('dotenv')
 
 module.exports = function() {
+  const envMode = process.env.MODE || 'production'
   // 允許的 env 配置文件，會從低到高的優先級合併
-  const paths = [
-    '.env',
-    '.env.production',
-    '.env.development',
-    '.env.local',
-    '.env.production.local',
-    '.env.development.local'
-  ]
+  const paths = ['.env', '.env.production', '.env.development', '.env.production.local', '.env.development.local']
 
-  const envs = paths.map(p => dotenv.config({ path: path.resolve(__dirname, '..', p) }).parsed || {})
+  const envs = paths
+    .filter(p => {
+      const [, , mode] = p.split('.')
+      return !mode || mode === envMode
+    })
+    .map(p => dotenv.config({ path: path.resolve(__dirname, '..', p) }).parsed || {})
   const mergedEnv = Object.assign({}, ...envs)
 
   // 轉化為 taro 內部的格式

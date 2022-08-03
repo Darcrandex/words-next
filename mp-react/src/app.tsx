@@ -13,7 +13,7 @@ dayjs.locale('zh-cn')
 
 const App: React.FC = ({ children }) => {
   useEffect(() => {
-    console.log('app mounted !!')
+    console.log('app mounted !!', process.env.MODE)
   }, [])
   useDidShow(() => console.log('app show'))
   useDidHide(() => console.log('app hide'))
