@@ -6,13 +6,14 @@
 
 import { Image } from '@tarojs/components'
 import TopHeader from '@/components/TopHeader'
+import imgLogo from '@/assets/images/logo.jpg'
 
 const About: React.FC = () => {
   return (
     <>
       <TopHeader>关于</TopHeader>
 
-      <Image src='' className='block mx-auto my-4 w-32 h-32 rounded-full bg-gray-100' />
+      <Image src={imgLogo} className='block mx-auto my-4 w-24 h-24 rounded-full bg-gray-100' />
 
       <p className='m-4 text-gray-600 indent-1'>
         <code className='inline-block font-bold'>Just Words（片语）</code>
