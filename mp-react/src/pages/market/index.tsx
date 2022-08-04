@@ -11,7 +11,7 @@ import TopSearch from '@/components/TopSearch'
 import { useSafeArea } from '@/stores/use-safe-area'
 import { useMarketParams } from '@/stores/use-market-params'
 import { apiGetCategories } from '@/apis/category'
-import { mergeClassNames } from '@/utils'
+import { mergeClassNames, navigateToPage } from '@/utils'
 
 import Resources from './Resources'
 import Authors from './Authors'
@@ -58,7 +58,7 @@ const Market: React.FC = () => {
   return (
     <>
       <section className='flex flex-col' style={{ height }}>
-        <TopSearch />
+        <TopSearch onClick={() => navigateToPage('search-result')} />
 
         <section className='flex-1 flex'>
           <aside className='w-24 h-full shrink-0 bg-gray-50'>

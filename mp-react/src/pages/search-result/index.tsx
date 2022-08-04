@@ -20,11 +20,13 @@ import iconClose from '@/assets/icons/icon-close.svg'
 
 import HotKeywords from './HotKeywords'
 import KeywordsTips from './KeywordsTips'
+import ListItem from './ListItem'
 
 const SearchResult: React.FC = () => {
   const { safeArea } = useSafeArea()
   const scrollHeight = safeArea.screenHeight - safeArea.menuBtnRect.top - safeArea.menuBtnRect.height - HEADER_BOTTOM
 
+  const [defaultKeywords] = useState('今晚的夜色真美')
   const [query, setQuery] = useState({ page: 1 })
   const [keywords, setKeywords] = useState('')
   const [list, setList] = useState<ParagraphModel[]>([])
@@ -39,15 +41,24 @@ const SearchResult: React.FC = () => {
   }
 
   const onSearch = async () => {
-    const res = await apiGetParagraphs({ keywords })
+    let k = keywords
+    if (keywords.trim().length === 0) {
+      k = defaultKeywords
+      setKeywords(defaultKeywords)
+    }
+
+    const res = await apiGetParagraphs({ keywords: k })
+    setDataLoaded(true)
     setList(res.list)
     setTotal(res.total)
-    setDataLoaded(true)
   }
 
-  const onKeywordsClick = (str: string) => {
+  const onKeywordsClick = async (str: string) => {
     setKeywords(str)
-    onSearch()
+    setDataLoaded(true)
+    const res = await apiGetParagraphs({ keywords: str })
+    setList(res.list)
+    setTotal(res.total)
   }
 
   const onClear = () => {
@@ -64,6 +75,7 @@ const SearchResult: React.FC = () => {
     try {
       const nextQuery = { ...query, page: query.page + 1, keywords }
       setQuery(nextQuery)
+      setDataLoaded(true)
 
       const res = await apiGetParagraphs(nextQuery)
       setList(curr => curr.concat(res.list))
@@ -113,10 +125,7 @@ const SearchResult: React.FC = () => {
 
       <ScrollView scrollY style={{ height: scrollHeight }} scrollWithAnimation onScrollToLower={onScrollToLower}>
         {list.map(v => (
-          <div key={v._id}>
-            <p>{v.content}</p>
-            <p>{v.resource.author.name}</p>
-          </div>
+          <ListItem key={v._id} data={v} />
         ))}
 
         {keywords.trim().length === 0 && <HotKeywords onKeywordsClick={onKeywordsClick} />}

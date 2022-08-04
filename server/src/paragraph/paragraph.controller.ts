@@ -91,4 +91,26 @@ export class ParagraphController {
       .exec()
     return record
   }
+
+  @Get('/hot-words')
+  async getHotWords() {
+    return [
+      '知否知否',
+      '子不语',
+      '但愿人长久',
+      '最遥远的距离',
+      '向来缘浅',
+      '遗忘',
+    ]
+  }
+
+  @Get('words-tips')
+  async getWordsTips(@Query() query: { keywords: string }) {
+    return [
+      `${query.keywords}是什么`,
+      `${query.keywords}能不能吃`,
+      `${query.keywords}好像不错`,
+      `${query.keywords}yyds`,
+    ]
+  }
 }

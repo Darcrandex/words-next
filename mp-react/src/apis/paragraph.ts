@@ -36,3 +36,11 @@ export async function apiLikeParagraph(id: string) {
 export async function apiCollectParagraph(id: string) {
   return await http.post(`/paragraph/collect/${id}`)
 }
+
+export async function apiGetHotWords() {
+  return await http.get<string[]>('/paragraph/hot-words')
+}
+
+export function apiGetWordsTips(keywords: string) {
+  return http.get<string[]>('/paragraph/words-tips', { keywords })
+}

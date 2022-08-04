@@ -17,8 +17,6 @@ import iconCollection from '@/assets/icons/icon-collect-active.svg'
 import iconAbout from '@/assets/icons/icon-about-theme.svg'
 import iconSetting from '@/assets/icons/icon-setting-theme.svg'
 
-import './style.less'
-
 const menus = [
   { icon: iconCollection, title: '我的收藏', to: 'collection' },
   { icon: iconAbout, title: '关于', to: 'about' },
