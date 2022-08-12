@@ -129,7 +129,7 @@ const Home: React.FC = () => {
         <Swiper autoplay className='h-36'>
           {banners.map(v => (
             <SwiperItem key={v.id}>
-              <div className='relative mx-4'>
+              <div className='relative mx-4' onClick={() => navigateToPage(v.link)}>
                 <div
                   className='relative z-2 h-32 rounded overflow-hidden bg-center bg-cover'
                   style={{ backgroundImage: `url('${v.imageUrl}')` }}

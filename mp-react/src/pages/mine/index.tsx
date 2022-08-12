@@ -15,12 +15,12 @@ import iconIdea from '@/assets/icons/icon-idea.svg'
 import iconArrowRight from '@/assets/icons/icon-arrow-right.svg'
 import iconCollection from '@/assets/icons/icon-collect-active.svg'
 import iconAbout from '@/assets/icons/icon-about-theme.svg'
-import iconSetting from '@/assets/icons/icon-setting-theme.svg'
+// import iconSetting from '@/assets/icons/icon-setting-theme.svg'
 
 const menus = [
   { icon: iconCollection, title: '我的收藏', to: 'collection' },
-  { icon: iconAbout, title: '关于', to: 'about' },
-  { icon: iconSetting, title: '设置', to: 'settings' }
+  { icon: iconAbout, title: '关于', to: 'about' }
+  // { icon: iconSetting, title: '设置', to: 'settings' }
 ]
 
 const Mine: React.FC = () => {

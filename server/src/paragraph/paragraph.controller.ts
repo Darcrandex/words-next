@@ -113,4 +113,15 @@ export class ParagraphController {
       `${query.keywords}yyds`,
     ]
   }
+
+  @Get('top-banners')
+  async getTopBanners() {
+    const list = await this.paragraphModel.find().limit(5).exec()
+
+    return list.map((v) => ({
+      _id: v._id,
+      imageUrl: v.cover,
+      link: `/pages/paragraph/index?id=${v._id}`,
+    }))
+  }
 }
