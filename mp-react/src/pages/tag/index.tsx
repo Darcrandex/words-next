@@ -17,8 +17,6 @@ import { apiGetTagById } from '@/apis/tag'
 import TopHeader, { HEADER_BOTTOM } from '@/components/TopHeader'
 import ScreenLoading from '@/components/ScreenLoading'
 
-import './styles.less'
-
 const WithTag: React.FC = () => {
   const tagId = useMemo(() => Taro.getCurrentInstance().router?.params.id ?? '', [])
 
@@ -74,10 +72,10 @@ const WithTag: React.FC = () => {
             <article
               className='article m-4 p-4 rounded shadow-m'
               style={{
-                backgroundSize: 'auto, auto 100%',
+                backgroundSize: '200% 200%, auto 100%',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'top left, top right',
-                backgroundImage: `linear-gradient(120deg, white 0%, white 60%, transparent 100%), url("${v.cover}")`
+                backgroundImage: `radial-gradient(circle at 50% 50%, transparent 5%, white 50%), url("${v.cover}")`
               }}
             >
               <div className='mb-2 min-h-16 text-gray-600 text-sm' style={{ width: '80%' }}>
